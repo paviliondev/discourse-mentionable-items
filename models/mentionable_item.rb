@@ -39,8 +39,8 @@ class MentionableItem < ActiveRecord::Base
   end
 
   def self.remove!(mentionable_item)
-    mentionable_item
-      .where(url: mentionable_item.url)
-      .delete!
+    MentionableItem
+      .where(url: mentionable_item[:url])
+      .destroy_all
   end
 end
