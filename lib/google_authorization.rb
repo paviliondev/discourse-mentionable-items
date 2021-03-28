@@ -5,6 +5,7 @@ require "base64url"
 class MentionableItems::GoogleAuthorization
 
   BASE_API_URL = 'https://oauth2.googleapis.com/'
+  GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer"
 
   def self.access_token
     PluginStore.get('MentionableItems', 'access_token') || {}
@@ -44,7 +45,7 @@ class MentionableItems::GoogleAuthorization
     token = calculate_jwt
 
     body = {
-      grant_type: grant_type,
+      grant_type: GRANT_TYPE,
       assertion: token
     }
 

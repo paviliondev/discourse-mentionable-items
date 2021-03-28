@@ -17,6 +17,7 @@ register_asset 'stylesheets/common.scss'
 after_initialize do
   %w(
     ../lib/engine.rb
+    ../lib/worksheets_import.rb
     ../lib/google_authorization.rb
     ../lib/google_sheet_operations.rb
     ../models/mentionable_item.rb

@@ -10,4 +10,4 @@ en:
   sheet_ingest:
     warnings:
       duplicate_url: "Duplicate URL found, skipping import of one row"
-      no_valid_url: "No URL found, skipping import of one row"
+      no_valid_url: "No valid URL found, skipping import of one row"
