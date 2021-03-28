@@ -9,14 +9,18 @@ class MentionableItem < ActiveRecord::Base
       mentionable_item[:image_url] = document.css('.thumbnail').attr('src').value
     end
 
-    self.create!(
-      url: mentionable_item[:url],
-      name: mentionable_item[:name],
-      image_url: mentionable_item[:image_url],
-      description:mentionable_item[:description],
-      created_at:  Time.zone.now,
-      updated_at: Time.zone.now,
-    )
+    unless !MentionableItem.find_by(url: mentionable_item[:url]).nil?
+      self.create!(
+        url: mentionable_item[:url],
+        name: mentionable_item[:name],
+        image_url: mentionable_item[:image_url],
+        description:mentionable_item[:description],
+        created_at:  Time.zone.now,
+        updated_at: Time.zone.now,
+      )
+    else
+      puts I18n.t('sheet_ingest.warnings.duplicate_url')
+    end
   end
 
   def self.remove!(mentionable_item)
