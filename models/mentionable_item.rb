@@ -11,7 +11,9 @@ class MentionableItem < ActiveRecord::Base
 
       if !mentionable_item.has_key?(:image_url) || mentionable_item.has_key?(:image_url) && mentionable_item[:image_url].blank?
         document = Nokogiri::HTML(Oneboxer.preview(mentionable_item[:url]))
-        mentionable_item[:image_url] = document.css('.thumbnail').attr('src').value
+        unless document.nil? || document.css('.thumbnail').attr('src').nil?
+          mentionable_item[:image_url] = document.css('.thumbnail').attr('src').value
+        end
       end
 
       unless !MentionableItem.find_by(url: mentionable_item[:url]).nil?
