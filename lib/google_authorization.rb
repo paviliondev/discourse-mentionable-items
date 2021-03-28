@@ -14,7 +14,7 @@ class MentionableItems::GoogleAuthorization
     PluginStore.set('MentionableItems', 'access_token', data)
   end
 
-  def self.get_access_token
+  def self.calculate_jwt
 
     header = {"alg":"RS256","typ":"JWT"}
 
@@ -36,11 +36,12 @@ class MentionableItems::GoogleAuthorization
 
     sig64 = Base64URL.encode(sig)
 
-    token = "#{headerJWT}.#{claimsJWT}.#{sig64}"
+    return "#{headerJWT}.#{claimsJWT}.#{sig64}"
+  end
 
-    grant_type = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  def self.get_access_token
 
-    grant_type_encoded = CGI.escape(grant_type)
+    token = calculate_jwt
 
     body = {
       grant_type: grant_type,
