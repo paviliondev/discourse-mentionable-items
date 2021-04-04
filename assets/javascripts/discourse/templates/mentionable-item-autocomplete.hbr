@@ -1,0 +1,10 @@
+<div class='autocomplete ac-mentionable-item'>
+  <ul>
+    {{#each options as |option|}}
+    <li>
+      <a href src={{option.model.url}}><img src='{{option.model.image_url}}'
+          style="width:50px" />{{option.model.name}}</a>
+    </li>
+    {{/each}}
+  </ul>
+</div>

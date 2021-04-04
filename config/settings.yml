@@ -2,6 +2,7 @@ plugins:
   mentionable_items_enabled:
     default: true
     type: bool
+    client: true
   mentionable_items_spreadsheet_name:
     default: ''
   mentionable_items_number_of_worksheets:

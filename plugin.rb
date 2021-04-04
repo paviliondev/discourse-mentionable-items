@@ -25,5 +25,13 @@ after_initialize do
     ../jobs/refresh_google_access_token.rb
   ).each do |path|
     load File.expand_path(path, __FILE__)
+
+    class ::SiteSerializer
+      attributes :mentionable_items
+  
+      def mentionable_items
+        MentionableItem.all
+      end
+    end
   end
 end
