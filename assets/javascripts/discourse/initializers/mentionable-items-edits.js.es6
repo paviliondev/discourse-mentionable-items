@@ -104,7 +104,7 @@ export default {
             template: findRawTemplate("mentionable-item-autocomplete"),
             key: "+",
             afterComplete: (value) => {
-              this.set("value", value);
+              this.set("value", value.replace('+http', 'http'));
               return this._focusTextArea();
             },
             onKeyUp: (text, cp) => {
@@ -121,7 +121,7 @@ export default {
               }
             },
             transformComplete: (obj) => {
-              return obj.text;
+              return obj.model.url;
             },
             dataSource: (term) => {
               if (term.match(/\s/)) {
