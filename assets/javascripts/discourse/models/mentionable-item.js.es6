@@ -1,13 +1,9 @@
-import discourseComputed, { on } from "discourse-common/utils/decorators";
+import discourseComputed from "discourse-common/utils/decorators";
 import RestModel from "discourse/models/rest";
 import Site from "discourse/models/site";
 import { get } from "@ember/object";
-import { getOwner } from "discourse-common/lib/get-owner";
-import getURL from "discourse-common/lib/get-url";
 
 const MentionableItem = RestModel.extend({
-  // @on("init")
-
   @discourseComputed("id")
   searchContext(id) {
     return { type: "mentionable_item", id, mentionable_item: this };
@@ -22,7 +18,6 @@ MentionableItem.reopenClass({
 
     let result = "";
 
-    
     const id = get(mentionable_item, "id"),
       name = get(mentionable_item, "name");
 
@@ -58,7 +53,6 @@ MentionableItem.reopenClass({
   },
 
   search(term, opts) {
-    
     let limit = 5;
 
     if (opts) {
@@ -90,8 +84,9 @@ MentionableItem.reopenClass({
       const mentionable_item = mentionable_items[i];
 
       if (
-        !emptyTerm &&
-        mentionable_item.name.toLowerCase().indexOf(term) === 0
+        (!emptyTerm &&
+          mentionable_item.name.toLowerCase().indexOf(term) === 0) ||
+        mentionable_item.name_slug.toLowerCase().indexOf(term) === 0
       ) {
         data.push(mentionable_item);
       }

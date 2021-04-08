@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class MentionableItem < ActiveRecord::Base
+  has_one :mentionable_item_slug
+
+  before_validation do
+    if mentionable_item_slug.try(:name) != name
+      self.name_slug = MentionableItemSlug.create(name: name)
+    end
+  end
 
   SUCCESS = 1
   FAILURE = 0
@@ -21,8 +28,12 @@ class MentionableItem < ActiveRecord::Base
           self.create!(
             url: mentionable_item[:url],
             name: mentionable_item[:name],
+            #slug: mentionable_item[:slug],
             image_url: mentionable_item[:image_url],
-            description:mentionable_item[:description],
+            description: mentionable_item[:description],
+            affiliate_snippet_1: mentionable_item[:affiliate_snippet_1],
+            affiliate_snippet_2: mentionable_item[:affiliate_snippet_2],
+            affiliate_snippet_3: mentionable_item[:affiliate_snippet_3],
             created_at:  Time.zone.now,
             updated_at: Time.zone.now,
           )

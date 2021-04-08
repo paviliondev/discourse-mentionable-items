@@ -8,7 +8,8 @@
 gem 'google_drive', '3.0.6', { require: false }
 gem 'jwt', '2.2.2', { require: false }
 gem 'openssl', '2.2.0', { require: false }
-gem 'base64url', '1.0.1', { require: false}
+gem 'base64url', '1.0.1', { require: false }
+gem 'friendly_id', '5.4.2', {require: false }
 
 enabled_site_setting :mentionable_items_enabled
 
@@ -20,6 +21,8 @@ after_initialize do
     ../lib/worksheets_import.rb
     ../lib/google_authorization.rb
     ../lib/google_sheet_operations.rb
+    ../lib/pretty_text_edits.rb
+    ../models/mentionable_item_slug.rb
     ../models/mentionable_item.rb
     ../jobs/upload_mentionable_items.rb
     ../jobs/refresh_google_access_token.rb

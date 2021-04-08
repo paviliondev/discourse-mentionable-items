@@ -1,10 +1,16 @@
-import NavItem from "discourse/models/nav-item";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { replaceIcon } from "discourse-common/lib/icon-library";
 import { findRawTemplate } from "discourse-common/lib/raw-templates";
-import { search as searchCategoryTag } from "discourse/lib/category-tag-search";
 import { searchMentionableItem } from "../lib/mentionable-item-search";
-import { mentionableItemTriggerRule } from "../lib/mentionable-item-trigger";
+import {
+  mentionableItemTriggerRule
+} from "../lib/mentionable-item-trigger";
+import { linkSeenMentionableItems } from "../lib/mentionable-items-preview-styling"
+import { linkSeenHashtags } from "discourse/lib/link-hashtags";
+import { linkSeenMentions } from "discourse/lib/link-mentions";
+import { loadOneboxes } from "discourse/lib/load-oneboxes";
+import { ajax } from "discourse/lib/ajax";
+import loadScript from "discourse/lib/load-script";
+import { resolveCachedShortUrls } from "pretty-text/upload-short-url";
 import { set } from "@ember/object";
 import { later, next, schedule, scheduleOnce } from "@ember/runloop";
 import { isTesting } from "discourse-common/config/environment";
@@ -104,7 +110,8 @@ export default {
             template: findRawTemplate("mentionable-item-autocomplete"),
             key: "+",
             afterComplete: (value) => {
-              this.set("value", value.replace('+http', 'http'));
+              this.set("value", value);
+
               return this._focusTextArea();
             },
             onKeyUp: (text, cp) => {
@@ -121,7 +128,7 @@ export default {
               }
             },
             transformComplete: (obj) => {
-              return obj.model.url;
+              return obj.model.name_slug;
             },
             dataSource: (term) => {
               if (term.match(/\s/)) {
@@ -139,33 +146,69 @@ export default {
           });
         },
 
-        // _applyCategoryHashtagAutocomplete($editorInput) {
-        //   const siteSettings = this.siteSettings;
+        _updatePreview() {
+          if (this._state !== "inDOM") {
+            return;
+          }
 
-        //  // this._applyMentionablItemsAutocomplete($editorInput);
-        //  //
-        //   $editorInput.autocomplete({
-        //     template: findRawTemplate("category-tag-autocomplete"),
-        //     key: "#",
-        //     afterComplete: (value) => {
-        //       this.set("value", value);
-        //       return this._focusTextArea();
-        //     },
-        //     transformComplete: (obj) => {
-        //       return obj.text;
-        //     },
-        //     dataSource: (term) => {
-        //       if (term.match(/\s/)) {
-        //         return null;
-        //       }
-        //
-        //       return searchCategoryTag(term, siteSettings);
-        //     },
-        //     triggerRule: (textarea, opts) => {
-        //       return categoryHashtagTriggerRule(textarea, opts);
-        //     },
-        //   });
-        // },
+          const value = this.value;
+
+          this.cachedCookAsync(value).then((cooked) => {
+            if (this.isDestroyed) {
+              return;
+            }
+            if (this.preview === cooked) {
+              return;
+            }
+
+            this.set("preview", cooked);
+
+            const cookedElement = document.createElement("div");
+            cookedElement.innerHTML = cooked;
+
+            linkSeenHashtags($(cookedElement));
+            linkSeenMentionableItems($(cookedElement));
+            linkSeenMentions($(cookedElement), this.siteSettings);
+            resolveCachedShortUrls(this.siteSettings, cookedElement);
+            loadOneboxes(
+              cookedElement,
+              ajax,
+              null,
+              null,
+              this.siteSettings.max_oneboxes_per_post,
+              false,
+              true
+            );
+
+            loadScript("/javascripts/diffhtml.min.js").then(() => {
+              window.diff.innerHTML(
+                this.element.querySelector(".d-editor-preview"),
+                cookedElement.innerHTML,
+                {
+                  parser: {
+                    rawElements: ["script", "noscript", "style", "template"],
+                  },
+                }
+              );
+            });
+
+            schedule("afterRender", () => {
+              if (this._state !== "inDOM") {
+                return;
+              }
+              const $preview = $(
+                this.element.querySelector(".d-editor-preview")
+              );
+              if ($preview.length === 0) {
+                return;
+              }
+
+              if (this.previewUpdated) {
+                this.previewUpdated($preview);
+              }
+            });
+          });
+        },
       });
     });
   },

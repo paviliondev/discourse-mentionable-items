@@ -1,12 +1,5 @@
-import { cancel, later } from "@ember/runloop";
-import { CANCELLED_STATUS } from "discourse/lib/autocomplete";
 import MentionableItem from "../models/mentionable-item";
-import { Promise } from "rsvp";
 import { SEPARATOR } from "../lib/mentionable-item-trigger";
-import { TAG_HASHTAG_POSTFIX } from "discourse/lib/tag-hashtags";
-import discourseDebounce from "discourse-common/lib/debounce";
-import getURL from "discourse-common/lib/get-url";
-import { isTesting } from "discourse-common/config/environment";
 
 let cache = {};
 let cacheTime;
