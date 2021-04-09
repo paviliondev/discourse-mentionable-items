@@ -7,6 +7,7 @@ function replaceSpan($elem, itemSlug, item_data) {
 }
 
 export function linkSeenMentionableItems($elem) {
+
   const $mentionableitems = $elem.find("span.mentionable-item");
   if ($mentionableitems.length === 0) {
     return [];

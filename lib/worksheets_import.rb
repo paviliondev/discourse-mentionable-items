@@ -57,6 +57,9 @@ module ::MentionableItems::WorksheetsImport
       "image_url": true,
       "name": true,
       "description": true,
+      "affiliate_snippet_1": true,
+      "affiliate_snippet_2": true,
+      "affiliate_snippet_3": true
     }
     column = 0
     while column < SiteSetting.mentionable_items_worksheet_max_column do

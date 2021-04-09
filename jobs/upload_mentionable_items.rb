@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Jobs
-  # UploadMentionableItemss Job uploads configured spreadsheet data
-  class UploadMentionableItemss < ::Jobs::Scheduled
+  # UploadMentionableItems Job uploads configured spreadsheet data
+  class UploadMentionableItems < ::Jobs::Scheduled
     every 2.hours
 
     def execute(args={})

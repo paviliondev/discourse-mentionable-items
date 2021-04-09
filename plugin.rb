@@ -21,13 +21,15 @@ after_initialize do
     ../lib/worksheets_import.rb
     ../lib/google_authorization.rb
     ../lib/google_sheet_operations.rb
-    ../lib/pretty_text_edits.rb
+    ../lib/before_post_process_cooked_edits.rb
     ../models/mentionable_item_slug.rb
     ../models/mentionable_item.rb
     ../jobs/upload_mentionable_items.rb
     ../jobs/refresh_google_access_token.rb
   ).each do |path|
     load File.expand_path(path, __FILE__)
+
+    #../lib/pretty_text_edits.rb
 
     class ::SiteSerializer
       attributes :mentionable_items
