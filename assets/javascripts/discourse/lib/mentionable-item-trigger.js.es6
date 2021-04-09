@@ -1,4 +1,3 @@
-//export const SEPARATOR = ":";
 import {
   caretPosition,
   caretRowCol,

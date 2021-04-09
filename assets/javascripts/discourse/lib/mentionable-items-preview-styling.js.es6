@@ -1,8 +1,8 @@
 import { searchMentionableItem } from "../lib/mentionable-item-search";
 
-function replaceSpan($elem, itemSlug, item_data) {
+function replaceSpan($elem, item_data) {
   $elem.replaceWith(
-    `<a href="${item_data.model.url}" class="mentionable-item"><span>${itemSlug}</span></a>`
+    `<a href="${item_data.model.url}" class="mentionable-item"><span>${item_data.model.name}</span></a>`
   );
 }
 
@@ -26,6 +26,6 @@ export function linkSeenMentionableItems($elem) {
 
     let item_data = searchMentionableItem(item)[0];
 
-    replaceSpan($(mentionableitem), item, item_data);
+    replaceSpan($(mentionableitem), item_data);
   });
 }

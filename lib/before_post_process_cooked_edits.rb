@@ -18,7 +18,7 @@ module MentionableItems::PostProcess
         new_anchor_node["class"] = "mentionable-item"
 
         new_span_node = doc.document.create_element "span"
-        new_span_node.inner_html = name_slug
+        new_span_node.inner_html = my_item[:name]
           
         new_anchor_node.inner_html = new_span_node
 
