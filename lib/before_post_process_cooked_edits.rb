@@ -12,16 +12,18 @@ module MentionableItems::PostProcess
 
       my_item = MentionableItem.find_by(name_slug: name_slug)
 
-      new_anchor_node = doc.document.create_element "a"
-      new_anchor_node["href"] = my_item[:url]
-      new_anchor_node["class"] = "mentionable-item"
+      unless my_item.nil?
+        new_anchor_node = doc.document.create_element "a"
+        new_anchor_node["href"] = my_item[:url]
+        new_anchor_node["class"] = "mentionable-item"
 
-      new_span_node = doc.document.create_element "span"
-      new_span_node.inner_html = name_slug
-        
-      new_anchor_node.inner_html = new_span_node
+        new_span_node = doc.document.create_element "span"
+        new_span_node.inner_html = name_slug
+          
+        new_anchor_node.inner_html = new_span_node
 
-      span.replace new_anchor_node
+        span.replace new_anchor_node
+      end
     end
   end
 end
