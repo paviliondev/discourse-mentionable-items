@@ -23,6 +23,20 @@ class MentionableItem < ActiveRecord::Base
         end
       end
 
+      if !mentionable_item.has_key?(:name) || mentionable_item.has_key?(:name) && mentionable_item[:name].blank?
+        document = Nokogiri::HTML(Oneboxer.preview(mentionable_item[:url]))
+        unless document.nil? || document.css('h3 a').inner_html.nil?
+          mentionable_item[:name] = document.css('h3 a').inner_html
+        end
+      end
+
+      if !mentionable_item.has_key?(:description) || mentionable_item.has_key?(:description) && mentionable_item[:description].blank?
+        document = Nokogiri::HTML(Oneboxer.preview(mentionable_item[:url]))
+        unless document.nil? || document.css('p').inner_html.nil?
+          mentionable_item[:description] = document.css('p').inner_html
+        end
+      end
+
       unless !MentionableItem.find_by(url: mentionable_item[:url]).nil?
         begin
           self.create!(

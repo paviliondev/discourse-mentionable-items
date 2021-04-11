@@ -71,7 +71,7 @@ module ::MentionableItems::WorksheetsImport
       end
       column += 1
     end
-    this_url, this_image_url, this_name, this_description = 0, 0, 0, 0 # cannot create variables dynamically in Ruby using eval
+    this_url, this_image_url, this_name, this_description, this_affiliate_snippet_1, this_affiliate_snippet_2, this_affiliate_snippet_3 = 0, 0, 0, 0, 0, 0, 0 # cannot create variables dynamically in Ruby using eval
     row = 1
     column = 0
     while row < SiteSetting.mentionable_items_worksheet_max_row do
@@ -87,10 +87,9 @@ module ::MentionableItems::WorksheetsImport
         end
       end
       if !blank
-        
-          successful_add = MentionableItem.add!(url: this_url, image_url: this_image_url, name: this_name, description: this_description)
-          number_of_successful_rows += successful_add
-          number_of_failed_rows += (successful_add.zero? ?  1 : 0)
+        successful_add = MentionableItem.add!(url: this_url, image_url: this_image_url, name: this_name, description: this_description, affiliate_snippet_1: this_affiliate_snippet_1, affiliate_snippet_2: this_affiliate_snippet_2, affiliate_snippet_3: this_affiliate_snippet_3)
+        number_of_successful_rows += successful_add
+        number_of_failed_rows += (successful_add.zero? ?  1 : 0)
       end
       row += 1
     end
