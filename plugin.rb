@@ -5,6 +5,7 @@
 # authors: Robert Barrow
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
+gem 'os', '1.1.1', { require: false }
 gem 'memoist', '0.16.2', { require: false }
 gem 'declarative-option', '0.1.0', { require: false }
 gem 'declarative', '0.0.20', { require: false }
