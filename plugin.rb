@@ -5,7 +5,7 @@
 # authors: Robert Barrow
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
-gem 'trailblazer-option', '0.1.0', {require : false}
+gem 'trailblazer-option', '0.1.0', {require: false}
 gem 'uber','0.1.0', { require: false }
 gem 'representable', '3.0.4', { require: false }
 gem 'googleauth', '0.16', { require: false }
