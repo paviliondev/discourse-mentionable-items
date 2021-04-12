@@ -5,7 +5,7 @@
 # authors: Robert Barrow
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
-gem 'declarative-option', '0.1.0', { require : false }
+gem 'declarative-option', '0.1.0', { require: false }
 gem 'declarative', '0.0.20', { require: false }
 gem 'trailblazer-option', '0.1.0', { require: false }
 gem 'uber','0.1.0', { require: false }
