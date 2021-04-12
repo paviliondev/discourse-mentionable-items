@@ -5,6 +5,9 @@
 # authors: Robert Barrow
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
+gem 'google-apis-generator', '0.2.0' { require: false }
+gem 'google-apis-core', '0.3.0' { require: false }
+gem 'google-api-client', '0.53.0' { require: false }
 gem 'google_drive', '3.0.6', { require: false }
 gem 'jwt', '2.2.2', { require: false }
 gem 'openssl', '2.2.0', { require: false }
