@@ -5,6 +5,8 @@
 # authors: Robert Barrow
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
+
+gem 'representable', '3.0.4', { require: false }
 gem 'google-apis-core', '0.3.0', { require: false }
 gem 'google-apis-discovery_v1', '0.2.0', { require: false }
 gem 'google-apis-generator', '0.2.0', { require: false }
