@@ -18,7 +18,6 @@ gem 'declarative', '0.0.20', { require: false }
 gem 'trailblazer-option', '0.1.0', { require: false }
 gem 'uber','0.1.0', { require: false }
 gem 'representable', '3.0.4', { require: false }
-gem 'googleauth', '0.16.1', { require: false }
 gem 'google-apis-core', '0.3.0', { require: false }
 gem 'google-apis-discovery_v1', '0.2.0', { require: false }
 gem 'google-apis-generator', '0.2.0', { require: false }
