@@ -3,7 +3,7 @@
     {{#each options as |option|}}
     <li>
       <a href src={{option.model.url}}><img src='{{option.model.image_url}}'
-          style="width:32px" />{{option.model.name}}</a>
+          style="width:32px" /><span class="ac-mentionable-item-name">{{option.model.name}}</span></a>
     </li>
     {{/each}}
   </ul>
