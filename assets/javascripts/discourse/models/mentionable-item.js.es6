@@ -84,14 +84,14 @@ MentionableItem.reopenClass({
 
       if (
         (!emptyTerm &&
-          mentionable_item.name.toLowerCase().indexOf(term) === 0) ||
+          mentionable_item.name.toLowerCase().indexOf(term) >= 0) ||
           mentionable_item.name_slug &&
-          mentionable_item.name_slug.toLowerCase().indexOf(term) === 0
+          mentionable_item.name_slug.toLowerCase().indexOf(term) >= 0
       ) {
         data.push(mentionable_item);
       }
     }
-    return data.sortBy("url");
+    return data.sortBy("name_slug");
   },
 });
 
