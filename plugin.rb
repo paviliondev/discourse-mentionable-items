@@ -5,6 +5,7 @@
 # authors: Robert Barrow
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
+gem 'gems', '1.2.0', { require: false }
 gem 'webrick', '1.7.0', { require: false }
 gem 'rexml', '3.2.5', { require: false }
 gem 'httpclient', '2.8.3', { require: false }
