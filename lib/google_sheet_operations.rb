@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'google_drive'
 
 # All methods used to interact with external Google sheets
 module ::MentionableItems::GoogleSheetOperations
