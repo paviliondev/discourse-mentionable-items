@@ -5,7 +5,9 @@ class MentionableItem < ActiveRecord::Base
 
   after_create do
     if mentionable_item_slug.try(:name) != name
-      self.name_slug = MentionableItemSlug.create(name: name,  mentionable_item_id: self.id)
+      new_slug = MentionableItemSlug.create(name: name,  mentionable_item_id: self.id)
+      self.name_slug = new_slug.name_slug
+      self.save!
     end
   end
 
