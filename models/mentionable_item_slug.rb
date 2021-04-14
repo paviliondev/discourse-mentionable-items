@@ -7,7 +7,7 @@ class MentionableItemSlug < ActiveRecord::Base
   friendly_id :name,
     use: :sequentially_slugged,
     slug_column: :name_slug
-  belongs_to :mentionable_item, polymorphic: true
+  belongs_to :mentionable_item
 
   def to_s
     self[:name_slug]
