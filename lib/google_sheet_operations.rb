@@ -10,7 +10,7 @@ module ::MentionableItems::GoogleSheetOperations
 
     session = GoogleDrive::Session.from_access_token(MentionableItems::GoogleAuthorization.access_token[:token])
 
-    spreadsheet = session.spreadsheet_by_title(SiteSetting.mentionable_items_spreadsheet_name)
+    spreadsheet = session.spreadsheet_by_url(SiteSetting.mentionable_items_spreadsheet_url)
   
     worksheets = spreadsheet.worksheets[0..SiteSetting.mentionable_items_number_of_worksheets-1]
 

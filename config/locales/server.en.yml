@@ -1,7 +1,7 @@
 en:
   site_settings:
     mentionable_items_enabled: "Enable the Product Mentions plugin"
-    mentionable_items_spreadsheet_name: "Name of the cloud spreadsheet"
+    mentionable_items_spreadsheet_url: "URL of the Google cloud spreadsheet"
     mentionable_items_number_of_worksheets: "Number of worksheets to scan"
     mentionable_items_worksheet_max_row: "Google Sheets max row considered"
     mentionable_items_worksheet_max_column:  "Google Sheets max column considered"

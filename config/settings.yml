@@ -3,7 +3,7 @@ plugins:
     default: true
     type: bool
     client: true
-  mentionable_items_spreadsheet_name:
+  mentionable_items_spreadsheet_url:
     default: ''
   mentionable_items_number_of_worksheets:
     default: 1
