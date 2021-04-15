@@ -7,7 +7,7 @@ plugins:
     default: ''
   mentionable_items_number_of_worksheets:
     default: 1
-    max: 3
+    max: 5
     min: 1
   mentionable_items_worksheet_max_column:
     default: 10
