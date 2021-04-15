@@ -15,8 +15,8 @@ plugins:
     max: 30
   mentionable_items_worksheet_max_row:
     default: 200
-    min: 50
-    max: 250
+    min: 20
+    max: 1000
   mentionable_items_google_service_account_private_key:
     default: ''
   mentionable_items_google_service_account_email:
