@@ -52,5 +52,5 @@ function addMentionableItem(buffer, matches, state) {
 }
 
 function mentionableItemRegex() {
-  return /\+(\w[\w.-]{0,200}[^\W_])|\+(\w)/;
+  return /(?<!:)\+(\w[\w.-]{0,200}[^\W_])|(?<!:)\+(\w)/;
 }
