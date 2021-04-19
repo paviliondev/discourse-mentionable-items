@@ -13,6 +13,7 @@ import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
 //Changes for Stable
 //import { resolveCachedShortUrls } from "pretty-text/upload-short-url";
+import { wantsNewWindow } from "discourse/lib/intercept-click";
 import { set } from "@ember/object";
 import { later, next, schedule, scheduleOnce } from "@ember/runloop";
 import { isTesting } from "discourse-common/config/environment";
