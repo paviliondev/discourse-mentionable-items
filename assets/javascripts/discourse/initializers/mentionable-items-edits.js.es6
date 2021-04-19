@@ -7,10 +7,12 @@ import {
 import { linkSeenMentionableItems } from "../lib/mentionable-items-preview-styling"
 import { linkSeenHashtags } from "discourse/lib/link-hashtags";
 import { linkSeenMentions } from "discourse/lib/link-mentions";
-import { loadOneboxes } from "discourse/lib/load-oneboxes";
+//Changes for Stable
+//import { loadOneboxes } from "discourse/lib/load-oneboxes";
 import { ajax } from "discourse/lib/ajax";
 import loadScript from "discourse/lib/load-script";
-import { resolveCachedShortUrls } from "pretty-text/upload-short-url";
+//Changes for Stable
+//import { resolveCachedShortUrls } from "pretty-text/upload-short-url";
 import { set } from "@ember/object";
 import { later, next, schedule, scheduleOnce } from "@ember/runloop";
 import { isTesting } from "discourse-common/config/environment";
@@ -165,20 +167,21 @@ export default {
 
             const cookedElement = document.createElement("div");
             cookedElement.innerHTML = cooked;
-
-            linkSeenHashtags($(cookedElement));
+            //Changes for Stable
+            // linkSeenHashtags($(cookedElement));
             linkSeenMentionableItems($(cookedElement));
-            linkSeenMentions($(cookedElement), this.siteSettings);
-            resolveCachedShortUrls(this.siteSettings, cookedElement);
-            loadOneboxes(
-              cookedElement,
-              ajax,
-              null,
-              null,
-              this.siteSettings.max_oneboxes_per_post,
-              false,
-              true
-            );
+            //Changes for Stable
+            // linkSeenMentions($(cookedElement), this.siteSettings);
+            // resolveCachedShortUrls(this.siteSettings, cookedElement);
+            // loadOneboxes(
+            //   cookedElement,
+            //   ajax,
+            //   null,
+            //   null,
+            //   this.siteSettings.max_oneboxes_per_post,
+            //   false,
+            //   true
+            // );
 
             loadScript("/javascripts/diffhtml.min.js").then(() => {
               window.diff.innerHTML(
