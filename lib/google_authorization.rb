@@ -31,7 +31,7 @@ class MentionableItems::GoogleAuthorization
   
     claimsJWT = Base64URL.encode(JSON.generate(claims))
     
-    rsa_public = OpenSSL::PKey::RSA.new(CGI.unescape(SiteSetting.mentionable_items_google_service_account_private_key))
+    rsa_public = OpenSSL::PKey::RSA.new(SiteSetting.mentionable_items_google_service_account_private_key.gsub("\\n", "\n"))
 
     sig = JWT::Signature.sign('RS256', "#{headerJWT}.#{claimsJWT}", rsa_public)
 
