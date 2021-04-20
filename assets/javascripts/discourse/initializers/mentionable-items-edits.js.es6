@@ -184,17 +184,18 @@ export default {
             //   true
             // );
 
-            loadScript("/javascripts/diffhtml.min.js").then(() => {
-              window.diff.innerHTML(
-                this.element.querySelector(".d-editor-preview"),
-                cookedElement.innerHTML,
-                {
-                  parser: {
-                    rawElements: ["script", "noscript", "style", "template"],
-                  },
-                }
-              );
-            });
+            //Changes for Stable
+            // loadScript("/javascripts/diffhtml.min.js").then(() => {
+            //   window.diff.innerHTML(
+            //     this.element.querySelector(".d-editor-preview"),
+            //     cookedElement.innerHTML,
+            //     {
+            //       parser: {
+            //         rawElements: ["script", "noscript", "style", "template"],
+            //       },
+            //     }
+            //   );
+            // });
 
             schedule("afterRender", () => {
               if (this._state !== "inDOM") {
