@@ -24,7 +24,6 @@ gem 'google-apis-discovery_v1', '0.2.0', { require: false }
 gem 'google-apis-generator', '0.2.0', { require: false }
 gem 'google-api-client', '0.53.0', { require: false }
 gem 'google_drive', '3.0.6', { require: false }
-gem 'jwt', '2.2.2', { require: false }
 gem 'openssl', '2.2.0', { require: false }
 gem 'base64url', '1.0.1', { require: false }
 gem 'friendly_id', '5.4.2', {require: false }
