@@ -6,7 +6,7 @@ en:
     mentionable_items_worksheet_max_row: "Google Sheets max row considered"
     mentionable_items_worksheet_max_column:  "Google Sheets max column considered"
     mentionable_items_google_service_account_email: "Google API Service Account Email"
-    mentionable_items_google_service_account_private_key: "Google API Service Account Email"
+    mentionable_items_google_service_account_private_key: "Google API Service Account Private Key"
   sheet_ingest:
     warnings:
       duplicate_url: "Duplicate URL found, skipping import of one row"
