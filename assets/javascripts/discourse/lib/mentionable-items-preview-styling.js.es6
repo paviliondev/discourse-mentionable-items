@@ -1,9 +1,12 @@
 import { searchMentionableItem } from "../lib/mentionable-item-search";
 
 function replaceSpan($elem, item_data) {
+  if (item_data === undefined || item_data.model === undefined) {
+    return;
+  };
   $elem.replaceWith(
     `<a href="${item_data.model.url}" class="mentionable-item"><span>${item_data.model.name}</span></a>`
-  );
+  );  
 }
 
 export function linkSeenMentionableItems($elem) {

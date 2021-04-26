@@ -33,7 +33,7 @@ export function setup(helper) {
 }
 
 function addMentionableItem(buffer, matches, state) {
-  let item = matches[1] || matches[2];
+  let item = matches[2];
   let tag = "span";
   let className = "mentionable-item";
 
@@ -52,5 +52,5 @@ function addMentionableItem(buffer, matches, state) {
 }
 
 function mentionableItemRegex() {
-  return /(?<!:)\+(\w[\w.-]{0,200}[^\W_])|(?<!:)\+(\w)/;
+  return /(\+)([a-zA-Z][\w.-]{0,200}[^\W_])|(\+)([a-zA-Z]\w)/;
 }
