@@ -2,8 +2,14 @@
   <ul>
     {{#each options as |option|}}
     <li>
-      <a href src={{option.model.url}}><img src='{{option.model.image_url}}'
-          style="width:32px" /><span class="ac-mentionable-item-name">{{option.model.name}}</span></a>
+      <a href src={{option.model.url}}>
+        <span class="ac-mentionable-item-image">
+          <img src='{{option.model.image_url}}'/>
+        </span>
+        <span class="ac-mentionable-item-name">
+          {{option.model.name}}
+        </span>
+      </a>
     </li>
     {{/each}}
   </ul>
