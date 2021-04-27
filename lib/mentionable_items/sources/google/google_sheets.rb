@@ -1,19 +1,38 @@
 # frozen_string_literal: true
+require 'google_drive'
 
-# All methods used to interact with external Google sheets
-module ::MentionableItems::WorksheetsImport
-  def self.import_sheets(worksheets)
+class ::MentionableItems::GoogleSheets
+  attr_reader :session,
+              :spreadsheet,
+              :worksheets
+
+  def initialize
+    unless MentionableItems::GoogleAuthorization.authorized
+      MentionableItems::GoogleAuthorization.get_access_token
+    end
+
+    access_token = MentionableItems::GoogleAuthorization.access_token[:token]
+    session = GoogleDrive::Session.from_access_token(access_token)
+    spreadsheet = session.spreadsheet_by_url(SiteSetting.mentionable_items_spreadsheet_url)
+    @worksheets = spreadsheet.worksheets[0..SiteSetting.mentionable_items_number_of_worksheets-1]
+  end
+
+  def import
     total_rows_imported = 0
     total_failures = 0
-    worksheets.each do |sheet|
+
+    @worksheets.each do |sheet|
       sheet_array = copy_worksheet_to_array(sheet)
       results = import_sheet(sheet_array)
       total_rows_imported += results[:success_rows]
       total_failures += results[:failed_rows]
     end
+
     report = "Mentionable Items Import: Rows imported: #{total_rows_imported}, Failed rows: #{total_failures}"
     Rails.logger.info(report)
   end
+  
+  protected
 
   class SparseArray
     attr_reader :hash
@@ -33,9 +52,9 @@ module ::MentionableItems::WorksheetsImport
     alias_method :length, :rows
   end
 
-  def self.copy_worksheet_to_array(sheet)
+  def copy_worksheet_to_array(sheet)
     result = SparseArray.new
-    
+
     column = 1
     while column <= SiteSetting.mentionable_items_worksheet_max_column do
       row = 1
@@ -45,11 +64,11 @@ module ::MentionableItems::WorksheetsImport
       end
       column += 1
     end
-    return result
+
+    result
   end
 
-  def self.import_sheet(sheet)
-    
+  def import_sheet(sheet)
     number_of_successful_rows = 0
     number_of_failed_rows = 0
     sheet_meta = {
@@ -62,6 +81,7 @@ module ::MentionableItems::WorksheetsImport
       "affiliate_snippet_3": true
     }
     column = 0
+
     while column < SiteSetting.mentionable_items_worksheet_max_column do
       if sheet[0][column].nil?
         break
@@ -71,9 +91,11 @@ module ::MentionableItems::WorksheetsImport
       end
       column += 1
     end
+
     this_url, this_image_url, this_name, this_description, this_affiliate_snippet_1, this_affiliate_snippet_2, this_affiliate_snippet_3 = 0, 0, 0, 0, 0, 0, 0 # cannot create variables dynamically in Ruby using eval
     row = 1
     column = 0
+    
     while row < SiteSetting.mentionable_items_worksheet_max_row do
       if sheet[row].nil? || sheet[row][column].nil?
         break
@@ -93,7 +115,8 @@ module ::MentionableItems::WorksheetsImport
       end
       row += 1
     end
-    return {
+
+    {
       success_rows: number_of_successful_rows,
       failed_rows: number_of_failed_rows
     }

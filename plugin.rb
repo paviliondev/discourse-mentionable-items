@@ -32,17 +32,23 @@ register_asset 'stylesheets/common.scss'
 
 after_initialize do
   %w(
-    ../lib/engine.rb
-    ../lib/worksheets_import.rb
-    ../lib/google_authorization.rb
-    ../lib/google_sheet_operations.rb
-    ../lib/before_post_process_cooked_edits.rb
-    ../serializers/site_serializer_edits.rb
-    ../models/mentionable_item_slug.rb
-    ../models/mentionable_item.rb
+    ../app/models/mentionable_item_slug.rb
+    ../app/models/mentionable_item.rb
+    ../lib/mentionable_items/engine.rb
+    ../lib/mentionable_items/sources/google/google_authorization.rb
+    ../lib/mentionable_items/sources/google/google_sheets.rb
+    ../lib/mentionable_items/post_process.rb
     ../jobs/upload_mentionable_items.rb
     ../jobs/refresh_google_access_token.rb
   ).each do |path|
     load File.expand_path(path, __FILE__)
+  end
+
+  add_to_serializer(:site, :mentionable_items) do
+    MentionableItem.all
+  end
+
+  on(:before_post_process_cooked) do |doc, post|
+    MentionableItems::PostProcess.add_links(doc, post)
   end
 end

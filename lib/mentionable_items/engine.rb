@@ -1,7 +1,8 @@
 module ::MentionableItems
+  PLUGIN_NAME ||= 'mentionable_items'
+
   class Engine < ::Rails::Engine
-    engine_name 'mentionable_items'
+    engine_name PLUGIN_NAME
     isolate_namespace MentionableItems
   end
-  PLUGIN_NAME ||= 'mentionable_items'
 end
