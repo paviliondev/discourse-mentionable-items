@@ -11,7 +11,7 @@ import Site from "discourse/models/site";
 import { schedule } from "@ember/runloop";
 
 export default {
-  name: "mentionable-items-edits",
+  name: "mentionable-items",
   initialize(container) {
     const currentUser = container.lookup("current-user:main");
     const siteSettings = container.lookup("site-settings:main");
