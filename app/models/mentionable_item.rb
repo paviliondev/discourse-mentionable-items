@@ -73,3 +73,25 @@ class MentionableItem < ActiveRecord::Base
       .destroy_all
   end
 end
+
+# == Schema Information
+#
+# Table name: mentionable_items
+#
+#  id                  :bigint           not null, primary key
+#  url                 :string           not null
+#  name                :string           not null
+#  name_slug           :string
+#  image_url           :string
+#  description         :string
+#  affiliate_snippet_1 :string
+#  affiliate_snippet_2 :string
+#  affiliate_snippet_3 :string
+#  created_at          :datetime
+#  updated_at          :datetime
+#
+# Indexes
+#
+#  index_mentionable_items_on_name_slug  (name_slug)
+#  index_mentionable_items_on_url        (url) UNIQUE
+#
