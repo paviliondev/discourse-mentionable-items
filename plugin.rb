@@ -35,8 +35,10 @@ after_initialize do
     ../app/models/mentionable_item_slug.rb
     ../app/models/mentionable_item.rb
     ../lib/mentionable_items/engine.rb
+    ../lib/mentionable_items/source.rb
     ../lib/mentionable_items/sources/google/google_authorization.rb
     ../lib/mentionable_items/sources/google/google_sheets.rb
+    ../lib/mentionable_items/import_result.rb
     ../lib/mentionable_items/post_process.rb
     ../jobs/upload_mentionable_items.rb
     ../jobs/refresh_google_access_token.rb
