@@ -10,11 +10,13 @@ class ::MentionableItems::GoogleSheets
     unless MentionableItems::GoogleAuthorization.authorized
       MentionableItems::GoogleAuthorization.get_access_token
     end
-
     access_token = MentionableItems::GoogleAuthorization.access_token[:token]
-    session = GoogleDrive::Session.from_access_token(access_token)
-    spreadsheet = session.spreadsheet_by_url(SiteSetting.mentionable_items_spreadsheet_url)
-    @worksheets = spreadsheet.worksheets[0..SiteSetting.mentionable_items_number_of_worksheets-1]
+
+    if access_token.present?
+      session = GoogleDrive::Session.from_access_token(access_token)
+      spreadsheet = session.spreadsheet_by_url(SiteSetting.mentionable_items_spreadsheet_url)
+      @worksheets = spreadsheet.worksheets[0..SiteSetting.mentionable_items_number_of_worksheets-1]
+    end
   end
 
   def import
@@ -30,42 +32,6 @@ class ::MentionableItems::GoogleSheets
 
     report = "Mentionable Items Import: Rows imported: #{total_rows_imported}, Failed rows: #{total_failures}"
     Rails.logger.info(report)
-  end
-  
-  protected
-
-  class SparseArray
-    attr_reader :hash
-  
-    def initialize
-      @hash = {}
-    end
-  
-    def [](key)
-      hash[key] ||= {}
-    end
-  
-    def rows
-      hash.length   
-    end
-  
-    alias_method :length, :rows
-  end
-
-  def copy_worksheet_to_array(sheet)
-    result = SparseArray.new
-
-    column = 1
-    while column <= SiteSetting.mentionable_items_worksheet_max_column do
-      row = 1
-      while row <= SiteSetting.mentionable_items_worksheet_max_row do
-        result[row - 1][column - 1] = sheet[row, column]
-        row += 1
-      end
-      column += 1
-    end
-
-    result
   end
 
   def import_sheet(sheet)
@@ -120,5 +86,41 @@ class ::MentionableItems::GoogleSheets
       success_rows: number_of_successful_rows,
       failed_rows: number_of_failed_rows
     }
+  end
+
+  protected
+
+  class SparseArray
+    attr_reader :hash
+  
+    def initialize
+      @hash = {}
+    end
+  
+    def [](key)
+      hash[key] ||= {}
+    end
+  
+    def rows
+      hash.length   
+    end
+  
+    alias_method :length, :rows
+  end
+
+  def copy_worksheet_to_array(sheet)
+    result = SparseArray.new
+
+    column = 1
+    while column <= SiteSetting.mentionable_items_worksheet_max_column do
+      row = 1
+      while row <= SiteSetting.mentionable_items_worksheet_max_row do
+        result[row - 1][column - 1] = sheet[row, column]
+        row += 1
+      end
+      column += 1
+    end
+
+    result
   end
 end
