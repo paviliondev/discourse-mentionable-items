@@ -1,126 +1,50 @@
 # frozen_string_literal: true
 require 'google_drive'
 
-class ::MentionableItems::GoogleSheets
-  attr_reader :session,
-              :spreadsheet,
-              :worksheets
+class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
 
-  def initialize
-    unless MentionableItems::GoogleAuthorization.authorized
-      MentionableItems::GoogleAuthorization.get_access_token
-    end
-    access_token = MentionableItems::GoogleAuthorization.access_token[:token]
+  attr_reader :spreadsheet
+  
+  def initialize(spreadsheet)
+    super
 
-    if access_token.present?
+    if !spreadsheet
+      access_token = MentionableItems::GoogleAuthorization.access_token
+      return unless access_token.present?
+
       session = GoogleDrive::Session.from_access_token(access_token)
-      spreadsheet = session.spreadsheet_by_url(SiteSetting.mentionable_items_spreadsheet_url)
-      @worksheets = spreadsheet.worksheets[0..SiteSetting.mentionable_items_number_of_worksheets-1]
+      spreadsheet_url = SiteSetting.mentionable_items_google_spreadsheet_url
+      spreadsheet = session.spreadsheet_by_url(spreadsheet_url)
     end
+
+    @spreadsheet = spreadsheet
   end
 
-  def import
-    total_rows_imported = 0
-    total_failures = 0
+  def import_from_source
+    @spreadsheet.worksheets.each do |worksheet|
+      worksheet.list.each do |row|
+        data = {}
+        valid_keys = row.keys.select { |key| @keys.include?(key) }
+        valid_keys.each do |key|
+          data[key.to_sym] = row[key]
+        end
 
-    @worksheets.each do |sheet|
-      sheet_array = copy_worksheet_to_array(sheet)
-      results = import_sheet(sheet_array)
-      total_rows_imported += results[:success_rows]
-      total_failures += results[:failed_rows]
-    end
+        unless REQUIRED_KEYS.all? { |c| data.key?(c.to_sym) }
+          @result.failed += 1
+          next
+        end
 
-    report = "Mentionable Items Import: Rows imported: #{total_rows_imported}, Failed rows: #{total_failures}"
-    Rails.logger.info(report)
-  end
+        add_result = MentionableItem.add!(data)
 
-  def import_sheet(sheet)
-    number_of_successful_rows = 0
-    number_of_failed_rows = 0
-    sheet_meta = {
-      "url": true,
-      "image_url": true,
-      "name": true,
-      "description": true,
-      "affiliate_snippet_1": true,
-      "affiliate_snippet_2": true,
-      "affiliate_snippet_3": true
-    }
-    column = 0
-
-    while column < SiteSetting.mentionable_items_worksheet_max_column do
-      if sheet[0][column].nil?
-        break
-      end
-      if sheet_meta[sheet[0][column].downcase.to_sym]
-        sheet_meta[sheet[0][column].downcase.to_sym] = column
-      end
-      column += 1
-    end
-
-    this_url, this_image_url, this_name, this_description, this_affiliate_snippet_1, this_affiliate_snippet_2, this_affiliate_snippet_3 = 0, 0, 0, 0, 0, 0, 0 # cannot create variables dynamically in Ruby using eval
-    row = 1
-    column = 0
-    
-    while row < SiteSetting.mentionable_items_worksheet_max_row do
-      if sheet[row].nil? || sheet[row][column].nil?
-        break
-      end
-      blank = true
-      sheet_meta.each do |key|
-        
-        eval("this_#{key[0].to_s}=nil")
-        if sheet_meta[key[0].to_sym] != true && !eval("this_#{key[0].to_s}=sheet[row][sheet_meta[key[0].to_sym]]").blank?
-          blank = false
+        case add_result
+        when MentionableItem.import_result[:success]
+          @result.successful += 1
+        when MentionableItem.import_result[:failure]
+          @result.failed += 1
+        when MentionableItem.import_result[:duplicates]
+          @result.duplicates += 1
         end
       end
-      if !blank
-        successful_add = MentionableItem.add!(url: this_url, image_url: this_image_url, name: this_name, description: this_description, affiliate_snippet_1: this_affiliate_snippet_1, affiliate_snippet_2: this_affiliate_snippet_2, affiliate_snippet_3: this_affiliate_snippet_3)
-        number_of_successful_rows += successful_add
-        number_of_failed_rows += (successful_add.zero? ?  1 : 0)
-      end
-      row += 1
     end
-
-    {
-      success_rows: number_of_successful_rows,
-      failed_rows: number_of_failed_rows
-    }
-  end
-
-  protected
-
-  class SparseArray
-    attr_reader :hash
-  
-    def initialize
-      @hash = {}
-    end
-  
-    def [](key)
-      hash[key] ||= {}
-    end
-  
-    def rows
-      hash.length   
-    end
-  
-    alias_method :length, :rows
-  end
-
-  def copy_worksheet_to_array(sheet)
-    result = SparseArray.new
-
-    column = 1
-    while column <= SiteSetting.mentionable_items_worksheet_max_column do
-      row = 1
-      while row <= SiteSetting.mentionable_items_worksheet_max_row do
-        result[row - 1][column - 1] = sheet[row, column]
-        row += 1
-      end
-      column += 1
-    end
-
-    result
   end
 end
