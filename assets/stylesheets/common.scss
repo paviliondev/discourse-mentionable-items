@@ -26,3 +26,50 @@ a.mentionable-item span {
     object-fit: contain;
   }
 }
+
+.admin-plugins.mentionable-items {
+  .title {
+    display: flex;
+    align-items: center;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .right {
+      margin-left: auto;
+    }
+  }
+
+  table {
+    table-layout: fixed;
+
+    td:last-of-type,
+    th:last-of-type {
+      text-align: center;
+    }
+  }
+
+  .import-report {
+    position: relative;
+
+    .details {
+      position: absolute;
+      top: 25px;
+      background-color: $secondary;
+      padding: .5em 1em;
+      box-shadow: shadow('dropdown');
+      z-index: 99;
+
+      ul {
+        list-style: none;
+        margin: 0;
+        
+        li {
+          white-space: nowrap;
+          margin: .5em 0;
+        }
+      }
+    }
+  }
+}

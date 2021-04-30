@@ -1,0 +1,20 @@
+en:
+  js:  
+    mentionable_items:
+      title: "Mentionable Items"
+      import: "Import"
+      start_import: "Start Import"
+      import_started: "Import started. It will take a few minutes to complete."
+      import_error: "Something went wrong. Please try again."
+      logs: "Logs"
+      filter: "type, source or message"
+      report:
+        title: Import Report
+        total: "%{count} items in total."
+        success: "%{count} items were successfully imported."
+        missing_required: "%{count} items are missing required attributes."
+        invalid_format: "%{count} items have an attribute with an invalid format."
+        duplicate: "%{count} items are the same as existing imported items."
+        failed_to_create: "%{count} items failed to be created for another reason."
+        missing_required_items: "Items missing required attributes: %{items}."
+        invalid_format_items: "Items with an invalid format: %{items}."

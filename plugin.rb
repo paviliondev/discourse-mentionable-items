@@ -1,5 +1,5 @@
 # name: discourse-mentionable-items
-# about: Takes a feed of items from a Google sheet and then allows users to +mention them in posts
+# about: Allows users to +mention custom data in posts
 # email contacts: robert@thepavilion.io
 # version: 0.1
 # authors: Robert Barrow
@@ -28,19 +28,25 @@ gem 'friendly_id', '5.4.2', require: false
 
 enabled_site_setting :mentionable_items_enabled
 
+add_admin_route "mentionable_items.title", "mentionable-items"
+
 register_asset 'stylesheets/common.scss'
 
 after_initialize do
   %w(
-    ../app/models/mentionable_item_slug.rb
-    ../app/models/mentionable_item.rb
     ../lib/mentionable_items/engine.rb
     ../lib/mentionable_items/source.rb
     ../lib/mentionable_items/sources/google/google_authorization.rb
     ../lib/mentionable_items/sources/google/google_sheets.rb
     ../lib/mentionable_items/import_result.rb
+    ../lib/mentionable_items/log.rb
     ../lib/mentionable_items/post_process.rb
-    ../jobs/upload_mentionable_items.rb
+    ../app/controllers/mentionable_items/admin_controller.rb
+    ../app/serializers/mentionable_items/log_serializer.rb
+    ../app/models/mentionable_item_slug.rb
+    ../app/models/mentionable_item.rb
+    ../config/routes.rb
+    ../jobs/import_mentionable_items.rb
     ../jobs/refresh_google_access_token.rb
   ).each do |path|
     load File.expand_path(path, __FILE__)

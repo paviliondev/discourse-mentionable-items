@@ -17,11 +17,11 @@ class MentionableItems::GoogleAuthorization
   end
 
   def self.set_access_token(data)
-    PluginStore.set('MentionableItems', 'access_token', data)
+    PluginStore.set(MentionableItems::PLUGIN_NAME, 'google_sheets_access_token', data)
   end
-  
+
   def self.get_access_token
-    PluginStore.get('MentionableItems', 'access_token') || {}
+    PluginStore.get(MentionableItems::PLUGIN_NAME, 'google_sheets_access_token') || {}
   end
 
   def self.calculate_jwt

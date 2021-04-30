@@ -3,6 +3,12 @@
 class MentionableItem < ActiveRecord::Base
   has_one :mentionable_item_slug, dependent: :destroy
 
+  before_create do
+    if SiteSetting.mentionable_items_onebox_fallback
+      apply_onebox_fallback
+    end
+  end
+
   after_create do
     if mentionable_item_slug.try(:name) != name
       new_slug = MentionableItemSlug.create(
@@ -14,64 +20,33 @@ class MentionableItem < ActiveRecord::Base
     end
   end
 
-  def self.import_result
-    @import_result ||= Enum.new(
-      success: 0,
-      failure: 1,
-      duplicate: 2
-    )
-  end
-
-  def self.add!(mentionable_item)
-    if !mentionable_item.has_key?(:url) || (mentionable_item[:url] =~ URI::regexp).nil?
-      return import_result[:failure]
-    end
-
-    if MentionableItem.find_by(url: mentionable_item[:url])
-      return import_result[:duplicate]
-    end
-
-    if SiteSetting.mentionable_items_onebox_fallback
-      mentionable_item = apply_onebox_fallback(mentionable_item)
-    end
-
-    begin
-      create!(mentionable_item)
-      import_result[:success]
-    rescue
-      import_result[:failure]
-    end
-  end
-
-  def self.remove!(mentionable_item)
+  def self.remove!(item)
     MentionableItem
-      .where(url: mentionable_item[:url])
+      .where(url: item[:url])
       .destroy_all
   end
 
-  def self.apply_onebox_fallback(mentionable_item)
-    if !mentionable_item.has_key?(:image_url) || mentionable_item.has_key?(:image_url) && mentionable_item[:image_url].blank?
-      document = Nokogiri::HTML(Oneboxer.preview(mentionable_item[:url]))
-      unless document.nil? || document.css('.thumbnail').attr('src').nil?
-        mentionable_item[:image_url] = document.css('.thumbnail').attr('src').value
-      end
-    end
+  def apply_onebox_fallback
+    preview = Oneboxer.preview(self.url)
+    document = Nokogiri::HTML(preview)
 
-    if !mentionable_item.has_key?(:name) || mentionable_item.has_key?(:name) && mentionable_item[:name].blank?
-      document = Nokogiri::HTML(Oneboxer.preview(mentionable_item[:url]))
-      unless document.nil? || document.css('h3 a').inner_html.nil?
-        mentionable_item[:name] = document.css('h3 a').inner_html
-      end
-    end
+    return if document.nil?
 
-    if !mentionable_item.has_key?(:description) || mentionable_item.has_key?(:description) && mentionable_item[:description].blank?
-      document = Nokogiri::HTML(Oneboxer.preview(mentionable_item[:url]))
-      unless document.nil? || document.css('p').inner_html.nil?
-        mentionable_item[:description] = document.css('p').inner_html
+    [:image_url, :name, :description].each do |key|
+      value = self.send(key)
+
+      if value.blank?
+        if key == :image_url
+          value = document.css('.thumbnail').attr('src')
+        elsif key == :name
+          value = document.css('h3 a').inner_html
+        elsif key == :description
+          value = document.css('p').inner_html
+        end
+
+        self.send("#{key.to_s}=", value) if value.present?
       end
     end
-    
-    mentionable_item
   end
 end
 

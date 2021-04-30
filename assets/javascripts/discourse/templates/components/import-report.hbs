@@ -1,0 +1,13 @@
+<a {{action "toggleDetails"}}>
+  {{i18n 'mentionable_items.report.title'}}
+</a>
+
+{{#if showDetails}}
+  <div class="details">
+    <ul>
+      {{#each reportDetails as |detail|}}
+        <li>{{detail}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}

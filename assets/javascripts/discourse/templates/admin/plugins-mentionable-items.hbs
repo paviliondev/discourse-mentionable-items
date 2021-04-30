@@ -1,0 +1,60 @@
+<div class="title">
+  <h2>{{i18n 'mentionable_items.import'}}</h2>
+
+  <div class="right">
+    {{#if loading}}
+      {{loading-spinner size="small"}}
+    {{else}}
+      {{#if message}}
+        <span>{{message}}</span>
+      {{/if}}
+    {{/if}}
+    {{d-button
+      icon="download"
+      label="mentionable_items.start_import"
+      title="mentionable_items.start_import"
+      action="startImport"
+    }}
+    {{d-button
+      icon="redo"
+      action="refresh"
+      title="refresh"
+      label="refresh"
+    }}
+  </div>
+</div>
+
+{{#load-more selector=".log-list tr" action=(action "loadMore")}}
+  {{#if noResults}}
+    <p>{{i18n 'search.no_results'}}</p>
+  {{else}}
+    <table class="log-list table grid">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Source</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each logs as |log|}}
+          <tr>
+            <td>{{log.type}}</td>
+            <td>{{log.source}}</td>
+            <td>
+              {{#if log.isReport}}
+                {{import-report report=log.message}}
+              {{else}}
+                {{log.message}}
+              {{/if}}
+            </td>
+            <td>{{bound-date log.date}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>  
+  {{/if}}
+  
+  {{conditional-loading-spinner condition=refreshing}}
+{{/load-more}}

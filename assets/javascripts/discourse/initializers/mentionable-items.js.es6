@@ -3,7 +3,6 @@ import { findRawTemplate } from "discourse-common/lib/raw-templates";
 import { searchMentionableItem } from "../lib/mentionable-item-search";
 import { mentionableItemTriggerRule } from "../lib/mentionable-item-trigger";
 import { linkSeenMentionableItems } from "../lib/mentionable-items-preview-styling"
-import { linkSeenMentions } from "discourse/lib/link-mentions";
 import { set } from "@ember/object";
 import { inCodeBlock } from "discourse/lib/utilities";
 import EmberObject from "@ember/object";

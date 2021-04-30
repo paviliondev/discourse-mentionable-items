@@ -92,7 +92,7 @@ MentionableItem.reopenClass({
       }
     }
     return data.sortBy("name_slug");
-  },
+  }
 });
 
 export default MentionableItem;

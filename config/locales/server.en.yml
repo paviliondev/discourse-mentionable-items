@@ -1,15 +1,18 @@
 en:
   site_settings:
     mentionable_items_enabled: "Enable the Product Mentions plugin"
+    mentionable_items_onebox_fallback: "Use a onebox to retrieve item attributes if they are not present in data."
     mentionable_items_google_spreadsheet_url: "URL of the Google cloud spreadsheet"
-    mentionable_items_google_worksheet_max_row: "Google Sheets max row considered"
     mentionable_items_google_service_account_email: "Google API Service Account Email"
     mentionable_items_google_service_account_private_key: "Google API Service Account Private Key"
 
   mentionable_items:
-    report: >
-      Mentionable Items Import:
-        %{total} items,
-        %{successful} imported,
-        %{failed} failed to import,
-        %{duplicates} duplicates.
+    title: Mentionable Items
+    log:
+      type:
+        info: "info"
+        warn: "warning"
+        report: "report"
+        error: "error"
+      messsage:
+        import_did_not_start: Import did not start as the source importer is not ready

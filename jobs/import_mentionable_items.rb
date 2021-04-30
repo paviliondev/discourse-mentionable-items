@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module Jobs
-  class UploadMentionableItems < ::Jobs::Scheduled
+  class ImportMentionableItems < ::Jobs::Scheduled
     every 2.hours
 
     def execute(args={})
       source = MentionableItems::GoogleSheets.new
-      source.import
+      source.import if source.ready?
     end
   end
 end
