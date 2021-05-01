@@ -7,6 +7,7 @@
 
 gem 'gems', '1.2.0', require: false
 gem 'webrick', '1.7.0', require: false
+gem 'rexml', '3.2.5', require: false
 gem 'httpclient', '2.8.3', require: false
 gem 'retriable', '3.1.2', require: false
 gem 'signet', '0.15.0', require: false
