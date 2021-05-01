@@ -7,8 +7,8 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
   def initialize(spreadsheet = nil)
     super
     spreadsheet_result = spreadsheet.present? ? spreadsheet : request_spreadsheet
-
-    if @spreadsheet&.class == ::GoogleDrive::Spreadsheet
+    byebug
+    if spreadsheet_result&.class == ::GoogleDrive::Spreadsheet
       @spreadsheet = spreadsheet_result
       @ready = true
     else
