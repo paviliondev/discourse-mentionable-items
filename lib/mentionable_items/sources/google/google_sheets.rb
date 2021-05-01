@@ -6,23 +6,26 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
 
   def initialize(spreadsheet = nil)
     super
+    spreadsheet_result = spreadsheet.present? ? spreadsheet : request_spreadsheet
 
-    if !spreadsheet
-      access_token = MentionableItems::GoogleAuthorization.access_token
-      return if !access_token.present?
+    if @spreadsheet&.class == ::GoogleDrive::Spreadsheet
+      @spreadsheet = spreadsheet_result
+      @ready = true
+    else
+      if spreadsheet_result.is_a?(Hash) && spreadsheet_result[:error_key]
+        message = I18n.t("mentionable_items.google_sheets.#{spreadsheet_result[:error_key]}")
+      elsif message = spreadsheet_result.try(:message)
+        message = message
+      else
+        message = I18n.t("mentionable_items.google_sheets.failed_to_retrieve_spreadsheet")
+      end
 
-      spreadsheet_url = SiteSetting.mentionable_items_google_spreadsheet_url
-      return if !spreadsheet_url.present?
-
-      session = GoogleDrive::Session.from_access_token(access_token)
-      return if !session.present?
-
-      spreadsheet = session.spreadsheet_by_url(spreadsheet_url)
-      return if !spreadsheet.present?
+      MentionableItems::Log.create(
+        type: ::MentionableItems::Log.types[:warn],
+        source: source_name,
+        message: message
+      )
     end
-
-    @spreadsheet = spreadsheet
-    @ready = true
   end
 
   def source_name
@@ -73,6 +76,23 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
       else
         @result.failed_to_create += 1
       end  
+    end
+  end
+
+  def request_spreadsheet
+    begin
+      access_token = MentionableItems::GoogleAuthorization.access_token
+      return { error_key: 'failed_to_authorize' } if !access_token.present?
+
+      spreadsheet_url = SiteSetting.mentionable_items_google_spreadsheet_url
+      return { error_key: 'no_spreadsheet_url' } if !spreadsheet_url.present?
+
+      session = GoogleDrive::Session.from_access_token(access_token)
+      return { error_key: 'failed_to_create_session' } if !session.present?
+
+      return session.spreadsheet_by_url(spreadsheet_url)
+    rescue => error
+      return error
     end
   end
 end

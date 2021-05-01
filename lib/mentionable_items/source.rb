@@ -29,7 +29,7 @@ class ::MentionableItems::Source
       MentionableItems::Log.create(
         type: MentionableItems::Log.types[:warn],
         source: source_name,
-        message: I18nt.t('mentionable_items.log.message.import_did_not_start')
+        message: I18n.t('mentionable_items.import_did_not_start')
       )
       return nil
     end

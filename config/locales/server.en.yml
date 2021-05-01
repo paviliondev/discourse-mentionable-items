@@ -14,5 +14,9 @@ en:
         warn: "warning"
         report: "report"
         error: "error"
-      messsage:
-        import_did_not_start: Import did not start as the source importer is not ready
+    import_did_not_start: Import did not start as the source importer is not ready
+    google_sheets:
+      failed_to_authorize: "Failed to authorize with Google. Please check your credentials"
+      no_spreadsheet_url: "Please set a spreadsheet url in the site settings."
+      failed_to_create_session: "Failed to create a Google Drive session."
+      failed_to_retrieve_spreadsheet: "Failed to retrieve spreadsheet."
