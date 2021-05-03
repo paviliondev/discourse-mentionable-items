@@ -79,7 +79,7 @@ export default Controller.extend({
 
         setTimeout(() => {
           this.set('message', null)
-        }, 7000);
+        }, 10000);
       }).catch(popupAjaxaError)
         .finally(() => {
           this.set('loading', false);

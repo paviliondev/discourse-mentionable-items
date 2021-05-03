@@ -5,6 +5,6 @@ class MentionableItems::LogSerializer < ::ApplicationSerializer
              :date
 
   def type
-    I18n.t("mentionable_items.log.type.#{MentionableItems::Log.types.key(object.type).to_s}")
+    MentionableItems::Log.types.key(object.type).to_s
   end
 end

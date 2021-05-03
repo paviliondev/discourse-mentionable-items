@@ -50,7 +50,13 @@ a.mentionable-item span {
     }
   }
 
-  .import-report {
+  .metionables-action-message {
+    background-color: $primary-low;
+    padding: 1em;
+    margin: 1em 0;
+  }
+
+  .mentionables-log-message {
     position: relative;
 
     .details {
@@ -58,8 +64,10 @@ a.mentionable-item span {
       top: 25px;
       background-color: $secondary;
       padding: .5em 1em;
+      border-top: 1px solid $primary-low;
       box-shadow: shadow('dropdown');
       z-index: 99;
+      right: 0;
 
       ul {
         list-style: none;

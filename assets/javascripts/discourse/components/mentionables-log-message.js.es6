@@ -3,7 +3,7 @@ import discourseComputed from "discourse-common/utils/decorators";
 import { bind } from "@ember/runloop";
 
 export default Component.extend({
-  classNames: ['import-report'],
+  classNames: ['mentionables-log-message'],
   showDetails: false,
 
   didInsertElement() {
@@ -19,20 +19,25 @@ export default Component.extend({
       return;
     }
 
-    if (!$(e.target).closest(".import-report").length) {
+    if (!$(e.target).closest(this.element).length) {
       this.set("showDetails", false);
     }
   },
 
-  @discourseComputed('report')
-  reportDetails(report) {
-    return Object.keys(report).map(key => {
+  @discourseComputed('log.type')
+  messageTitle(type) {
+    return I18n.t(`mentionable_items.${type}.title`);
+  },
+
+  @discourseComputed('log.message')
+  reportDetails(message) {
+    return Object.keys(message).map(key => {
       let opts = {};
 
       if (/\_items/.test(key)) {
-        opts.items = report[key].join(', ');
+        opts.items = message[key].join(', ');
       } else {
-        opts.count = report[key];
+        opts.count = message[key];
       }
 
       return I18n.t(`mentionable_items.report.${key}`, opts);

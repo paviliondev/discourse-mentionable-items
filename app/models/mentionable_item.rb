@@ -2,6 +2,7 @@
 
 class MentionableItem < ActiveRecord::Base
   has_one :mentionable_item_slug, dependent: :destroy
+  validates_uniqueness_of :url
 
   before_create do
     if SiteSetting.mentionable_items_onebox_fallback

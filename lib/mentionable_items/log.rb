@@ -20,7 +20,7 @@ class MentionableItems::Log
     @types ||= Enum.new(
       info: 1,
       report: 2,
-      warn: 3,
+      warning: 3,
       error: 4
     )
   end

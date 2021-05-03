@@ -2,13 +2,10 @@
   <h2>{{i18n 'mentionable_items.import'}}</h2>
 
   <div class="right">
-    {{#if loading}}
-      {{loading-spinner size="small"}}
-    {{else}}
-      {{#if message}}
-        <span>{{message}}</span>
-      {{/if}}
-    {{/if}}
+    {{conditional-loading-spinner
+      condition=loading
+      size="small"
+    }}
     {{d-button
       icon="download"
       label="mentionable_items.start_import"
@@ -23,6 +20,10 @@
     }}
   </div>
 </div>
+
+{{#if message}}
+  <div class="metionables-action-message">{{message}}</div>
+{{/if}}
 
 {{#load-more selector=".log-list tr" action=(action "loadMore")}}
   {{#if noResults}}
@@ -42,19 +43,15 @@
           <tr>
             <td>{{log.type}}</td>
             <td>{{log.source}}</td>
-            <td>
-              {{#if log.isReport}}
-                {{import-report report=log.message}}
-              {{else}}
-                {{log.message}}
-              {{/if}}
-            </td>
+            <td>{{mentionables-log-message log=log}}</td>
             <td>{{bound-date log.date}}</td>
           </tr>
         {{/each}}
       </tbody>
     </table>  
   {{/if}}
-  
-  {{conditional-loading-spinner condition=refreshing}}
+
+  {{conditional-loading-spinner
+    condition=refreshing
+  }}
 {{/load-more}}

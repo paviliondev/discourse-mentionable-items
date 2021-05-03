@@ -1,22 +1,17 @@
 en:
   site_settings:
-    mentionable_items_enabled: "Enable the Product Mentions plugin"
-    mentionable_items_onebox_fallback: "Use a onebox to retrieve item attributes if they are not present in data."
-    mentionable_items_google_spreadsheet_url: "URL of the Google cloud spreadsheet"
+    mentionable_items_enabled: "Enable the Mentionable Items plugin"
+    mentionable_items_source: "Mentionable items data source"
+    mentionable_items_onebox_fallback: "Attempt to retrieve item attributes from the url if they are not present in data. Will make imports slower."
+    mentionable_items_google_spreadsheet_url: "URL of the Google spreadsheet"
     mentionable_items_google_service_account_email: "Google API Service Account Email"
     mentionable_items_google_service_account_private_key: "Google API Service Account Private Key"
 
   mentionable_items:
     title: Mentionable Items
-    log:
-      type:
-        info: "info"
-        warn: "warning"
-        report: "report"
-        error: "error"
-    import_did_not_start: Import did not start as the source importer is not ready
+    import_did_not_start: "Import did not start as the source importer is not ready."
     google_sheets:
       failed_to_authorize: "Failed to authorize with Google. Please check your credentials"
       no_spreadsheet_url: "Please set a spreadsheet url in the site settings."
       failed_to_create_session: "Failed to create a Google Drive session."
-      failed_to_retrieve_spreadsheet: "Failed to retrieve spreadsheet."
+      failed_to_retrieve_spreadsheet: "Failed to retrieve the spreadsheet."

@@ -5,8 +5,13 @@ module Jobs
     every 2.hours
 
     def execute(args={})
-      source = MentionableItems::GoogleSheets.new
-      source.import if source.ready?
+      source_name = SiteSetting.mentionable_items_source.to_s
+      klass = "MentionableItems::#{source_name.camelize}".constantize
+
+      if klass&.respond_to?(:new)
+        source = klass.new
+        source.import
+      end
     end
   end
 end

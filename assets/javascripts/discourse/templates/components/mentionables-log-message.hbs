@@ -1,0 +1,15 @@
+<a {{action "toggleDetails"}}>{{messageTitle}}</a>
+
+{{#if showDetails}}
+  <div class="details">
+    {{#if log.isReport}}
+      <ul>
+        {{#each reportDetails as |detail|}}
+          <li>{{detail}}</li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <span>{{log.message}}</span>
+    {{/if}}
+  </div>
+{{/if}}

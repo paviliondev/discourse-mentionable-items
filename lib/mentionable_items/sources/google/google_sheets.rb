@@ -21,7 +21,7 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
       end
 
       MentionableItems::Log.create(
-        type: ::MentionableItems::Log.types[:warn],
+        type: ::MentionableItems::Log.types[:warning],
         source: source_name,
         message: message
       )
@@ -32,51 +32,19 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
     'google_sheets'
   end
 
-  def validate_item(item)
-    if REQUIRED_KEYS.any? { |key| !item.has_key?(key.to_sym) }
-      @result.missing_required += 1
-
-      REQUIRED_KEYS.each do |key|
-        if item[key.to_sym].present?
-          @reuslt.missing_required_items << item[key.to_sym] 
-        end
-      end
-
-      return false
-    end
-
-    if (item[:url] =~ URI::regexp).nil?
-      @result.invalid_format += 1
-      @reuslt.invalid_format_items << item[:url] if item[:url].present?
-      return false
-    end
-
-    if MentionableItem.exists?(item.slice(*REQUIRED_KEYS.map(&:to_sym)))
-      @result.duplicate += 1
-      return false
-    end
-
-    return true
-  end
-
-  def import_from_source
+  def get_items_from_source
     rows = @spreadsheet.worksheets.map { |w| w.list.map { |r| r } }.flatten
-    @result.total = rows.size
+    items = []
 
     rows.each do |row|
       item = {}
       row_hash = row.to_hash.transform_keys(&:downcase)
       valid_keys = row_hash.keys.select { |key| KEYS.include?(key) }
       valid_keys.each { |key| item[key.to_sym] = row_hash[key] }
-
-      next unless validate_item(item)
-
-      if MentionableItem.create!(item)
-        @result.success += 1
-      else
-        @result.failed_to_create += 1
-      end  
+      items.push(item)
     end
+
+    items
   end
 
   def request_spreadsheet
