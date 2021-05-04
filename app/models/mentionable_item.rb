@@ -6,13 +6,13 @@ class MentionableItem < ActiveRecord::Base
   friendly_id :name, use: :sequentially_slugged
   validates_uniqueness_of :slug
 
-  before_create do
+  before_save do
     if SiteSetting.mentionable_items_onebox_fallback
       apply_onebox_fallback
     end
   end
 
-  after_update do
+  after_save do
     if !slug
       self.slug = self.friendly_id
       self.save!

@@ -4,7 +4,8 @@ class ::MentionableItems::ImportResult
   attr_accessor :total,
                 :error,
                 :missing_required_items,
-                :invalid_format_items
+                :invalid_format_items,
+                :invalid_slug_items
 
   def initialize
     @total = 0
@@ -16,6 +17,7 @@ class ::MentionableItems::ImportResult
 
     @missing_required_items = []
     @invalid_format_items = []
+    @invalid_slug_items = []
   end
 
   def self.types
@@ -24,7 +26,8 @@ class ::MentionableItems::ImportResult
       missing_required: 1,
       invalid_format: 2,
       duplicate: 3,
-      failed_to_create: 4
+      failed_to_create: 4,
+      invalid_slug: 5
     )
   end
 
@@ -39,7 +42,11 @@ class ::MentionableItems::ImportResult
       end
     end
 
-    [:missing_required_items, :invalid_format_items].each do |key|
+    [
+      :missing_required_items,
+      :invalid_format_items,
+      :invalid_slug_items
+    ].each do |key|
       if (items = self.send(key)).any?
         result[key] = items
       end

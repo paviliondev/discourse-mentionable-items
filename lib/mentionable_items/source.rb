@@ -106,6 +106,13 @@ class ::MentionableItems::Source
       return false
     end
 
+    if item[:slug].present? && invalid_slug(item[:slug])
+      @result.invalid_slug += 1
+      item_identifier = find_first_required_value(item)
+      @result.invalid_slug_items << item_identifier if item_identifier.present?
+      item.delete(:slug)
+    end
+
     return item
   end
 
@@ -115,9 +122,14 @@ class ::MentionableItems::Source
     REQUIRED_KEYS.each do |key|
       if item[key.to_sym].present?
         value = item[key.to_sym]
+        break
       end
     end
 
     value
+  end
+
+  def invalid_slug(slug)
+    slug =~ /\s/
   end
 end
