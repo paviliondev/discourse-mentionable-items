@@ -58,7 +58,7 @@ export default {
               }
             },
             transformComplete: (obj) => {
-              return obj.model.name_slug;
+              return obj.model.slug;
             },
             dataSource: (term) => {
               if (term.match(/\s/)) {

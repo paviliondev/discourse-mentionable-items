@@ -1,0 +1,11 @@
+{{d-button
+  icon="info-circle"
+  action="toggleDetails"
+  title="mentionable_items.info.title"
+  label="mentionable_items.info.title"
+}}
+{{#if showDetails}}
+  <div class="details">
+    {{i18n 'mentionable_items.info.total' total=info.total}}
+  </div>
+{{/if}}

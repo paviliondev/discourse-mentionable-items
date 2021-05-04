@@ -7,7 +7,7 @@ class MentionableItems::Log
                 :date
 
   PAGE_LIMIT = 100
-  
+
   def initialize(attrs)
     attrs = attrs.with_indifferent_access
 
@@ -21,7 +21,8 @@ class MentionableItems::Log
       info: 1,
       report: 2,
       warning: 3,
-      error: 4
+      error: 4,
+      destroy_all: 5
     )
   end
 

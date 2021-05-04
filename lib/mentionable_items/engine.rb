@@ -5,4 +5,10 @@ module ::MentionableItems
     engine_name PLUGIN_NAME
     isolate_namespace MentionableItems
   end
+
+  def self.info
+    Hash[
+      total: MentionableItem.all.size
+    ]
+  end
 end

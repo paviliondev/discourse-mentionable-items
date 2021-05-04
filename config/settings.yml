@@ -9,5 +9,8 @@ plugins:
       - google_sheets
   mentionable_items_onebox_fallback: false
   mentionable_items_google_spreadsheet_url: ''
+  mentionable_items_google_worksheet_gids:
+    type: list
+    default: ''
   mentionable_items_google_service_account_private_key: ''
   mentionable_items_google_service_account_email: ''

@@ -5,7 +5,9 @@ import Controller from "@ember/controller";
 import discourseDebounce from "discourse/lib/debounce";
 import { INPUT_DELAY } from "discourse-common/config/environment";
 import { ajax } from "discourse/lib/ajax";
-import { popupAjaxaError } from "discourse/lib/ajax-error";
+import { popupAjaxError } from "discourse/lib/ajax-error";
+
+const mentionablesPath = "/admin/plugins/mentionable-items";
 
 export default Controller.extend({
   refreshing: false,
@@ -32,7 +34,10 @@ export default Controller.extend({
 
     MentionableItemLog.list(params)
       .then(result => {
-        if (!result || result.length === 0) {
+        const logs = result.logs;
+        const info = result.info;
+
+        if (!logs || logs.length === 0) {
           this.set('canLoadMore', false);
         }
         if (filter && page == 0) {
@@ -40,8 +45,9 @@ export default Controller.extend({
         }
 
         this.get('logs').pushObjects(
-          result.map(l => MentionableItemLog.create(l))
+          logs.map(l => MentionableItemLog.create(l))
         );
+        this.set('info', info);
       })
       .finally(() => this.set("refreshing", false));
   }, INPUT_DELAY),
@@ -49,6 +55,11 @@ export default Controller.extend({
   @discourseComputed('hasLogs', 'refreshing')
   noResults(hasLogs, refreshing) {
     return !hasLogs && !refreshing;
+  },
+
+  showMessage(key) {
+    this.set('message', I18n.t(`mentionable_items.${key}`));
+    setTimeout(() => { this.set('message', null); }, 20000);
   },
 
   actions: {
@@ -68,19 +79,23 @@ export default Controller.extend({
     },
 
     startImport() {
-      ajax('/admin/plugins/mentionable-items', {
+      ajax(mentionablesPath, {
         type: 'POST'
       }).then(result => {
-        if (result.success) {
-          this.set('message', I18n.t('mentionable_items.import_started'));
-        } else {
-          this.set('message', I18n.t('mentionable_items.import_error'));
-        }
+        this.showMessage(result.success ? "import_started" : "error");
+      }).catch(popupAjaxError)
+        .finally(() => {
+          this.set('loading', false);
+        });
+    },
 
-        setTimeout(() => {
-          this.set('message', null)
-        }, 10000);
-      }).catch(popupAjaxaError)
+    deleteData() {
+      ajax(mentionablesPath, {
+        type: 'DELETE'
+      }).then(result => {
+        console.log(result)
+        this.showMessage(result.success ? "data_deleted" : "error");
+      }).catch(popupAjaxError)
         .finally(() => {
           this.set('loading', false);
         });

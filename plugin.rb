@@ -44,10 +44,10 @@ after_initialize do
     ../lib/mentionable_items/post_process.rb
     ../app/controllers/mentionable_items/admin_controller.rb
     ../app/serializers/mentionable_items/log_serializer.rb
-    ../app/models/mentionable_item_slug.rb
     ../app/models/mentionable_item.rb
     ../config/routes.rb
     ../jobs/import_mentionable_items.rb
+    ../jobs/destroy_mentionable_items.rb
     ../jobs/refresh_google_access_token.rb
   ).each do |path|
     load File.expand_path(path, __FILE__)

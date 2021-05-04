@@ -4,6 +4,7 @@ en:
     mentionable_items_source: "Mentionable items data source"
     mentionable_items_onebox_fallback: "Attempt to retrieve item attributes from the url if they are not present in data. Will make imports slower."
     mentionable_items_google_spreadsheet_url: "URL of the Google spreadsheet"
+    mentionable_items_google_worksheet_gids: "List of Google worksheet GIDs to restrict import to."
     mentionable_items_google_service_account_email: "Google API Service Account Email"
     mentionable_items_google_service_account_private_key: "Google API Service Account Private Key"
 

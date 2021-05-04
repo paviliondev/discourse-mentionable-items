@@ -4,12 +4,12 @@
   <div class="details">
     {{#if log.isReport}}
       <ul>
-        {{#each reportDetails as |detail|}}
+        {{#each messageDetails as |detail|}}
           <li>{{detail}}</li>
         {{/each}}
       </ul>
     {{else}}
-      <span>{{log.message}}</span>
+      <span>{{messageDetails}}</span>
     {{/if}}
   </div>
 {{/if}}

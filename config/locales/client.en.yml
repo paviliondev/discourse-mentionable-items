@@ -3,28 +3,41 @@ en:
     mentionable_items:
       title: "Mentionable Items"
       import: "Import"
-      start_import: "Start Import"
       import_started: >
         Your import has started. Depending on the size of your data, it may
         take a while to complete. When it completes you will see a new message in
         the list below, which you can refresh by clicking "Refresh". You can
         safely close this window without affecting the import.
-      import_error: "Something went wrong. Please try again."
-      logs: "Logs"
-      filter: "type, source or message"
-      report:
-        title: Import Report
-        total: "%{count} items in total."
-        success: "%{count} items were successfully imported."
-        missing_required: "%{count} items are missing required attributes."
-        invalid_format: "%{count} items have an attribute with an invalid format."
-        duplicate: "%{count} items are the same as existing imported items."
-        failed_to_create: "%{count} items failed to be created for another reason."
-        missing_required_items: "Items missing required attributes: %{items}."
-        invalid_format_items: "Items with an invalid format: %{items}."
+      delete_all: "Delete All"
+      data_deleted: >
+        We've started to remove all mentionables from your Discourse database.
+        It will take a few minutes for the process to complete. When it completes
+        you will see a new message in the list below, which you can refresh by
+        clicking "Refresh". You can safely close this window without affecting
+        deletion.
+      error: "Something went wrong. Please try again."
       info:
-        title: Info Message
-      warning:
-        title: Warning Message
-      error:
-        title: Error Message
+        title: Info
+        total: There are currently %{total} mentionable items in the database.
+      logs: "Logs"
+      log:
+        filter: "type, source or message"
+        report:
+          title: Import Report
+          total: "%{count} items in total."
+          success: "%{count} items were successfully imported."
+          missing_required: "%{count} items are missing required attributes."
+          invalid_format: "%{count} items have an attribute with an invalid format."
+          duplicate: "%{count} items are duplicates."
+          failed_to_create: "%{count} items failed to be created for another reason."
+          missing_required_items: "Items missing required attributes: %{items}."
+          invalid_format_items: "Items with an invalid format: %{items}."
+        info:
+          title: Info Message
+        warning:
+          title: Warning Message
+        error:
+          title: Error Message
+        destroy_all:
+          title: Mentionables Deleted
+          description: All mentionable items were removed from the Discourse database.

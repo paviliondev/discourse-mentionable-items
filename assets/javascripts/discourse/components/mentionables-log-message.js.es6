@@ -1,35 +1,30 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
-import { bind } from "@ember/runloop";
+import Dropdown from "../mixins/mentionables-dropdown";
+import I18n from 'I18n';
 
-export default Component.extend({
-  classNames: ['mentionables-log-message'],
+const typesWithDescriptions = ['destroy_all'];
+
+export default Component.extend(Dropdown, {
+  classNames: ['mentionables-log-message', 'mentionables-dropdown'],
   showDetails: false,
-
-  didInsertElement() {
-    $(document).on("click", bind(this, this.documentClick));
-  },
-
-  willDestroyElement() {
-    $(document).off("click", bind(this, this.documentClick));
-  },
-
-  documentClick(e) {
-    if (this._state === "destroying") {
-      return;
-    }
-
-    if (!$(e.target).closest(this.element).length) {
-      this.set("showDetails", false);
-    }
-  },
 
   @discourseComputed('log.type')
   messageTitle(type) {
-    return I18n.t(`mentionable_items.${type}.title`);
+    return I18n.t(`mentionable_items.log.${type}.title`);
   },
 
-  @discourseComputed('log.message')
+  @discourseComputed('log.type', 'log.message')
+  messageDetails(type, message) {
+    if (type === 'report') {
+      return this.reportDetails(message);
+    }
+    if (typesWithDescriptions.includes(type)) {
+      return I18n.t(`mentionable_items.log.${type}.description`);
+    }
+    return message;
+  },
+
   reportDetails(message) {
     return Object.keys(message).map(key => {
       let opts = {};
@@ -40,13 +35,7 @@ export default Component.extend({
         opts.count = message[key];
       }
 
-      return I18n.t(`mentionable_items.report.${key}`, opts);
+      return I18n.t(`mentionable_items.log.report.${key}`, opts);
     });
-  },
-
-  actions: {
-    toggleDetails() {
-      this.toggleProperty('showDetails');
-    }
   }
 });

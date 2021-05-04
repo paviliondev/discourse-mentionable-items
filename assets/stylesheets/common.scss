@@ -32,13 +32,22 @@ a.mentionable-item span {
     display: flex;
     align-items: center;
 
-    h3 {
+    h2 {
       margin-bottom: 0;
     }
 
     .right {
       margin-left: auto;
+      display: flex;
+
+      > * {
+        margin-left: .5em;
+      }
     }
+  }
+
+  .mentionables-info {
+    margin-left: 1em;
   }
 
   table {
@@ -55,8 +64,8 @@ a.mentionable-item span {
     padding: 1em;
     margin: 1em 0;
   }
-
-  .mentionables-log-message {
+  
+  .mentionables-dropdown {
     position: relative;
 
     .details {
@@ -68,6 +77,7 @@ a.mentionable-item span {
       box-shadow: shadow('dropdown');
       z-index: 99;
       right: 0;
+      min-width: 300px;
 
       ul {
         list-style: none;
@@ -78,6 +88,12 @@ a.mentionable-item span {
           margin: .5em 0;
         }
       }
+    }
+
+    &.mentionables-info .details {
+      top: 35px;
+      left: 0;
+      right: unset;
     }
   }
 }

@@ -33,7 +33,13 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
   end
 
   def get_items_from_source
-    rows = @spreadsheet.worksheets.map { |w| w.list.map { |r| r } }.flatten
+    worksheets = @spreadsheet.worksheets
+
+    if (gids = SiteSetting.mentionable_items_google_worksheet_gids.split('|')).any?
+      worksheets = worksheets.select { |w| gids.include?(w.gid) }
+    end
+
+    rows = worksheets.map { |w| w.list.map { |r| r } }.flatten
     items = []
 
     rows.each do |row|

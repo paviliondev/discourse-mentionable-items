@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+require 'friendly_id'
 
 class MentionableItem < ActiveRecord::Base
-  has_one :mentionable_item_slug, dependent: :destroy
-  validates_uniqueness_of :url
+  extend FriendlyId
+  friendly_id :name, use: :sequentially_slugged
+  validates_uniqueness_of :slug
 
   before_create do
     if SiteSetting.mentionable_items_onebox_fallback
@@ -10,15 +12,19 @@ class MentionableItem < ActiveRecord::Base
     end
   end
 
-  after_create do
-    if mentionable_item_slug.try(:name) != name
-      new_slug = MentionableItemSlug.create(
-        name: name,
-        mentionable_item_id: self.id
-      )
-      self.name_slug = new_slug.name_slug
+  after_update do
+    if !slug
+      self.slug = self.friendly_id
       self.save!
     end
+  end
+
+  def self.destroy_all
+    self.all.destroy_all
+    MentionableItems::Log.create(
+      type: MentionableItems::Log.types[:destroy_all],
+      source: nil
+    )
   end
 
   def self.remove!(item)
@@ -58,7 +64,7 @@ end
 #  id                  :bigint           not null, primary key
 #  url                 :string           not null
 #  name                :string           not null
-#  name_slug           :string
+#  slug                :string
 #  image_url           :string
 #  description         :string
 #  affiliate_snippet_1 :string
@@ -69,6 +75,5 @@ end
 #
 # Indexes
 #
-#  index_mentionable_items_on_name_slug  (name_slug)
-#  index_mentionable_items_on_url        (url) UNIQUE
+#  index_mentionable_items_on_slug  (slug) UNIQUE
 #

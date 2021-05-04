@@ -1,5 +1,6 @@
 <div class="title">
-  <h2>{{i18n 'mentionable_items.import'}}</h2>
+  <h2>{{i18n 'mentionable_items.title'}}</h2>
+  {{mentionables-info info=info}}
 
   <div class="right">
     {{conditional-loading-spinner
@@ -7,16 +8,24 @@
       size="small"
     }}
     {{d-button
-      icon="download"
-      label="mentionable_items.start_import"
-      title="mentionable_items.start_import"
-      action="startImport"
-    }}
-    {{d-button
       icon="redo"
       action="refresh"
       title="refresh"
       label="refresh"
+    }}
+    {{d-button
+      icon="trash-alt"
+      label="mentionable_items.delete_all"
+      title="mentionable_items.delete_all"
+      action="deleteData"
+      class="btn-danger"
+    }}
+    {{d-button
+      icon="download"
+      label="mentionable_items.import"
+      title="mentionable_items.import"
+      action="startImport"
+      class="btn-primary"
     }}
   </div>
 </div>
@@ -42,7 +51,7 @@
         {{#each logs as |log|}}
           <tr>
             <td>{{log.type}}</td>
-            <td>{{log.source}}</td>
+            <td>{{dash-if-empty log.source}}</td>
             <td>{{mentionables-log-message log=log}}</td>
             <td>{{bound-date log.date}}</td>
           </tr>
