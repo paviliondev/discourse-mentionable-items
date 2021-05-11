@@ -91,34 +91,39 @@ class ::MentionableItems::Source
 
   def validate_item_hash(item)
     item = item.delete_if { |k, v| v.empty? }
+    identifier = find_first_required_value(item)
 
     if REQUIRED_KEYS.any? { |key| !item.has_key?(key.to_sym) }
-      @result.missing_required += 1
-      item_identifier = find_first_required_value(item)
-      @result.missing_required_items << item_identifier if item_identifier.present?
+      add_to_result(:missing_required, identifier)
       return false
     end
 
     if (item[:url] =~ URI::regexp).nil?
-      @result.invalid_format += 1
-      item_identifier = find_first_required_value(item)
-      @result.invalid_format_items << item_identifier if item_identifier.present?
+      add_to_result(:invalid_format, identifier)
       return false
     end
 
     if item[:slug].present? && invalid_slug(item[:slug])
-      @result.invalid_slug += 1
-      @result.invalid_slug_items << identifying_value(item) if identifying_value(item).present?
+      add_to_result(:invalid_slug, identifier)
       item.delete(:slug)
     end
 
     if item[:slug].blank? && !SiteSetting.mentionable_items_generate_slugs
-      @result.invalid_slug += 1
-      @result.invalid_slug_items << identifying_value(item) if identifying_value(item).present?
+      add_to_result(:invalid_slug, identifier)
       return false
     end
 
     return item
+  end
+
+  def add_to_result(key, identifier)
+    @result.send("#{key}=", @result.send(key) + 1)
+
+    if identifier.present?
+      items = @result.send(:"#{key}_items")
+      items.push(identifier)
+      @result.send(:"#{key}_items=", items)
+    end
   end
 
   def find_first_required_value(item)
