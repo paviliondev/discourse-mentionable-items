@@ -2,7 +2,7 @@ en:
   js:  
     mentionable_items:
       title: "Mentionable Items"
-      import: "Import"
+      import: "Start Import"
       import_started: >
         Your import has started. Depending on the size of your data, it may
         take a while to complete. When it completes you will see a new message in
