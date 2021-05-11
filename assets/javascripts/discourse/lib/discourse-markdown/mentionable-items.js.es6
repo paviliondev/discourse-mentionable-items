@@ -1,5 +1,7 @@
 import { registerOption } from "pretty-text/pretty-text";
 
+export const SEPARATOR = "+";
+
 registerOption((siteSettings, opts) => {
   opts.features["mentionable-items"] = !!siteSettings.mentionable_items_enabled;
 });
@@ -18,7 +20,6 @@ function setupMarkdownIt(helper) {
     };
 
     md.core.textPostProcess.ruler.push("mentionable-items", rule);
-
   });
 }
 
@@ -43,7 +44,7 @@ function addMentionableItem(buffer, matches, state) {
   buffer.push(token);
 
   token = new state.Token("text", "", 0);
-  token.content = "+" + item;
+  token.content = SEPARATOR + item;
 
   buffer.push(token);
 

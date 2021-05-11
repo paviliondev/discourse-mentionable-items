@@ -1,5 +1,9 @@
+span.mentionable-item {
+  font-weight: bold;
+}
+
 a.mentionable-item span {
-  background-color: lightgrey;
+  background-color: $primary-low;
   padding: 3px;
   border-radius: 3px;
   color: $primary;

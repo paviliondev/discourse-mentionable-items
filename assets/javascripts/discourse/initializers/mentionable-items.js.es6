@@ -1,10 +1,10 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { findRawTemplate } from "discourse-common/lib/raw-templates";
 import { searchMentionableItem } from "../lib/mentionable-item-search";
-import { mentionableItemTriggerRule } from "../lib/mentionable-item-trigger";
 import { linkSeenMentionableItems } from "../lib/mentionable-items-preview-styling"
+import { SEPARATOR } from "../lib/discourse-markdown/mentionable-items";
 import { set } from "@ember/object";
-import { inCodeBlock } from "discourse/lib/utilities";
+import { inCodeBlock, caretPosition } from "discourse/lib/utilities";
 import EmberObject from "@ember/object";
 import Site from "discourse/models/site";
 import { schedule } from "@ember/runloop";
@@ -21,58 +21,28 @@ export default {
     const obj = EmberObject.create(Discourse.Site.current().mentionable_items);
 
     set(obj, "length", length);
-
     Site.current().set("mentionable_items", obj);
 
     withPluginApi("0.8.13", (api) => {
       api.modifyClass("component:d-editor", {
         didInsertElement() {
           this._super(...arguments);
-
           const $editorInput = $(this.element.querySelector(".d-editor-input"));
           this._applyMentionablItemsAutocomplete($editorInput);
         },
 
         _applyMentionablItemsAutocomplete($editorInput) {
-          const siteSettings = this.siteSettings;
-
           $editorInput.autocomplete({
             template: findRawTemplate("mentionable-item-autocomplete"),
-            key: "+",
+            key: SEPARATOR,
             afterComplete: (value) => {
               this.set("value", value);
-
               return this._focusTextArea();
             },
-            onKeyUp: (text, cp) => {
-              if (inCodeBlock(text, cp)) {
-                return false;
-              }
-
-              const matches = /(?:^|[\s.\?,@\/#!%&*;:\[\]{}=\-_()])(\+(?!:).?[\w-]*:?(?!:)(?:t\d?)?:?) ?$/gi.exec(
-                text.substring(0, cp)
-              );
-
-              if (matches && matches[1]) {
-                return [matches[1]];
-              }
-            },
-            transformComplete: (obj) => {
-              return obj.model.slug;
-            },
-            dataSource: (term) => {
-              if (term.match(/\s/)) {
-                return null;
-              }
-
-              const return_var = searchMentionableItem(term, siteSettings);
-
-              return return_var;
-            },
-
-            triggerRule: (textarea, opts) => {
-              return mentionableItemTriggerRule(textarea, opts);
-            },
+            transformComplete: (obj) => obj.model.slug,
+            dataSource: (term) => term.match(/\s/) ? null : searchMentionableItem(term, siteSettings),
+            triggerRule: (textarea) =>
+              !inCodeBlock(textarea.value, caretPosition(textarea)),
           });
         },
 
@@ -80,15 +50,10 @@ export default {
           this._super(...arguments);
 
           schedule("afterRender", () => {
-            if (this._state !== "inDOM") {
-              return;
-            }
-
             const $preview = $(this.element.querySelector(".d-editor-preview"));
-            if ($preview.length === 0) {
+            if (this._state !== "inDOM" || $preview.length === 0) {
               return;
             }
-
             linkSeenMentionableItems($preview);
           });
         }

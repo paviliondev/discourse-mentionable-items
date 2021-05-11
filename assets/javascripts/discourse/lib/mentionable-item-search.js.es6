@@ -1,5 +1,5 @@
 import MentionableItem from "../models/mentionable-item";
-import { SEPARATOR } from "../lib/mentionable-item-trigger";
+import { SEPARATOR } from "../lib/discourse-markdown/mentionable-items";
 
 let cache = {};
 let cacheTime;
@@ -28,7 +28,7 @@ export function searchMentionableItem(term, siteSettings) {
   const limit = 5;
   let mentionable_items = MentionableItem.search(term, { limit });
   let numOfMentionableItems = mentionable_items.length;
-  
+
   mentionable_items = mentionable_items.map((mentionable_item) => {
     return {
       model: mentionable_item,
