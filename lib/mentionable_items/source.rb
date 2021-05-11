@@ -108,9 +108,14 @@ class ::MentionableItems::Source
 
     if item[:slug].present? && invalid_slug(item[:slug])
       @result.invalid_slug += 1
-      item_identifier = find_first_required_value(item)
-      @result.invalid_slug_items << item_identifier if item_identifier.present?
+      @result.invalid_slug_items << identifying_value(item) if identifying_value(item).present?
       item.delete(:slug)
+    end
+
+    if item[:slug].blank? && !SiteSetting.mentionable_items_generate_slugs
+      @result.invalid_slug += 1
+      @result.invalid_slug_items << identifying_value(item) if identifying_value(item).present?
+      return false
     end
 
     return item

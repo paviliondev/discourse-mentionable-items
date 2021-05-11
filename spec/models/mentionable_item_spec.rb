@@ -2,24 +2,34 @@
 require_relative '../plugin_helper'
 
 describe MentionableItem do
-  empty_item = {}
-  a_sparse_item = {url: 'https://news.bbc.co.uk'}
-  a_duplicate_sparse_item = {url: 'https://news.bbc.co.uk'}
-  an_item_without_an_image = {url: 'https://cnn.com'}
+  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionable-items/spec/fixtures"
 
-  MentionableItem.add!(a_sparse_item)
+  before do
+    CSV.foreach("#{FIXTURE_PATH}/required_only.csv", headers: true) do |row|
+      @required_item = row.to_h
+    end
+    CSV.foreach("#{FIXTURE_PATH}/required_and_optional.csv", headers: true) do |row|
+      @required_and_optional_item = row.to_h
+    end
+  end
 
-  it "Adding an empty item results in failure" do
-    expect(MentionableItem.add!(empty_item)).to eq(0)
+  it "adds missing slug if mentionable_items_generate_slugs is true" do
+    mentionable_item = described_class.new(@required_item)
+    mentionable_item.save
+    expect(mentionable_item.reload.slug).to eq('bbc')
   end
-  it "Adding an item where the url already exists results in failure" do
-    expect(MentionableItem.add!(a_sparse_item)).to eq(0)
+
+  it "does not validate if missing slug and mentionable_items_generate_slugs is false" do
+    SiteSetting.mentionable_items_generate_slugs = false
+    mentionable_item = described_class.new(@required_item)
+    byebug
+    expect(mentionable_item).to_not be_valid
   end
-  
-  it "Adding an item where the url has just been removed succeeds" do
-    MentionableItem.add!(a_sparse_item)
-    MentionableItem.remove!(a_sparse_item)
-    expect(MentionableItem.add!(a_duplicate_sparse_item)).to eq(1)
+
+  it "allows user to provide slug" do
+    SiteSetting.mentionable_items_generate_slugs = false
+    mentionable_item = described_class.new(@required_and_optional_item)
+    mentionable_item.save
+    expect(mentionable_item.reload.slug).to eq('bbc-news')
   end
-  
 end

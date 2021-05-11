@@ -2,12 +2,12 @@
 require_relative '../../plugin_helper'
 
 describe ::MentionableItems::GoogleSheets do
-  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionable-items/spec/fixtures/google_sheets"
+  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionable-items/spec/fixtures"
 
   before(:all) do
     WebMock.allow_net_connect!
     SiteSetting.mentionable_items_onebox_fallback = false
-    @session = GoogleDrive::Session.from_service_account_key("#{FIXTURE_PATH}/service-account.json")
+    @session = GoogleDrive::Session.from_service_account_key("#{FIXTURE_PATH}/google_sheets/service-account.json")
   end
 
   after(:all) do

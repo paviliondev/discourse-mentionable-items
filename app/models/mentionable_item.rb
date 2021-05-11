@@ -1,21 +1,17 @@
 # frozen_string_literal: true
-require 'friendly_id'
 
 class MentionableItem < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :name, use: :sequentially_slugged
-  validates_uniqueness_of :slug
+  validates :slug, presence: true, uniqueness: true
+
+  before_validation do
+    if !self.slug && SiteSetting.mentionable_items_generate_slugs
+      self.slug = self.name.parameterize
+    end
+  end
 
   before_save do
     if SiteSetting.mentionable_items_onebox_fallback
       apply_onebox_fallback
-    end
-  end
-
-  after_save do
-    if !slug
-      self.slug = self.friendly_id
-      self.save!
     end
   end
 
