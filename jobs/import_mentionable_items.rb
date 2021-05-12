@@ -2,7 +2,7 @@
 
 module Jobs
   class ImportMentionableItems < ::Jobs::Scheduled
-    every 2.hours
+    every 24.hours
 
     def execute(args={})
       source_name = SiteSetting.mentionable_items_source.to_s
