@@ -1,8 +1,8 @@
 # name: discourse-mentionable-items
 # about: Allows users to +mention custom data in posts
 # email contacts: robert@thepavilion.io
-# version: 0.1
-# authors: Robert Barrow
+# version: 0.2.0
+# authors: Robert Barrow, Angus McLeod
 # url: https://github.com/paviliondev/discourse-mentionable-items
 
 gem 'gems', '1.2.0', require: false
