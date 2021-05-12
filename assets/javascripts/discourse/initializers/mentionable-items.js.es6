@@ -18,7 +18,7 @@ export default {
     if (!siteSettings.mentionable_items_enabled) return;
 
     const length = Site.current().mentionable_items.length;
-    const obj = EmberObject.create(Discourse.Site.current().mentionable_items);
+    const obj = EmberObject.create(Site.current().mentionable_items);
 
     set(obj, "length", length);
     Site.current().set("mentionable_items", obj);
