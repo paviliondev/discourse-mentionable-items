@@ -25,7 +25,7 @@ export function searchMentionableItem(term, siteSettings) {
     return cached;
   }
 
-  const limit = 5;
+  const limit = siteSettings.mentionable_items_autocomplete_limit;
   let mentionable_items = MentionableItem.search(term, { limit });
   let numOfMentionableItems = mentionable_items.length;
 

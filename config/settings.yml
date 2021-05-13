@@ -9,6 +9,9 @@ plugins:
       - google_sheets
   mentionable_items_onebox_fallback: false
   mentionable_items_generate_slugs: true
+  mentionable_items_autocomplete_limit:
+    default: 5
+    client: true
   mentionable_items_google_spreadsheet_url: ''
   mentionable_items_google_worksheet_gids:
     type: list

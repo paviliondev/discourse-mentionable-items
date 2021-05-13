@@ -4,6 +4,7 @@ en:
     mentionable_items_source: "Mentionable items data source"
     mentionable_items_onebox_fallback: "Attempt to retrieve item attributes from the url if they are not present in data. Will make imports slower."
     mentionable_items_generate_slugs: "Generate an item slug from the item name if there is no slug in the data source."
+    mentionable_items_autocomplete_limit: "Maximum number of mentionable items to show in composer autocomplete."
     mentionable_items_google_spreadsheet_url: "URL of the Google spreadsheet"
     mentionable_items_google_worksheet_gids: "Restrict Google spreadsheet import to worksheet GIDs. If emtpy, all worksheets will be imported."
     mentionable_items_google_service_account_email: "Google API Service Account Email"

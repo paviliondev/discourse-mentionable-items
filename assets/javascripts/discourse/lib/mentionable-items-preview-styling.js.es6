@@ -20,7 +20,7 @@ export function linkSeenMentionableItems($elem) {
 
   $mentionableitems.each((index, mentionableitem) => {
     let item = items[index];
-    let item_data = searchMentionableItem(item)[0];
+    let item_data = searchMentionableItem(item, siteSettings)[0];
 
     if (!item_data || !item_data.model) return;
 
