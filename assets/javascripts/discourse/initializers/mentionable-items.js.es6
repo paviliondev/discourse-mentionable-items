@@ -54,7 +54,7 @@ export default {
             if (this._state !== "inDOM" || $preview.length === 0) {
               return;
             }
-            linkSeenMentionableItems($preview);
+            linkSeenMentionableItems($preview, siteSettings);
           });
         }
       });
