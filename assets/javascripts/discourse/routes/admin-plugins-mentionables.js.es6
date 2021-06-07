@@ -8,12 +8,12 @@ export default DiscourseRoute.extend({
   },
 
   setupController(controller, model) {
-    const logs = A(model.logs.map(log => MentionablesLog.create(log)));
+    const logs = A(model.logs.map((log) => MentionablesLog.create(log)));
     const info = model.info;
 
     controller.setProperties({
       logs,
-      info
+      info,
     });
-  }
+  },
 });

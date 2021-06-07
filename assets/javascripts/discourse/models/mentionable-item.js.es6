@@ -9,7 +9,7 @@ const MentionableItem = RestModel.extend({
     return {
       type: "mentionable_item",
       id,
-      mentionable_item: this
+      mentionable_item: this,
     };
   },
 });
@@ -88,14 +88,14 @@ MentionableItem.reopenClass({
       if (
         (!emptyTerm &&
           mentionable_item.name.toLowerCase().indexOf(term) >= 0) ||
-          mentionable_item.slug &&
-          mentionable_item.slug.toLowerCase().indexOf(term) >= 0
+        (mentionable_item.slug &&
+          mentionable_item.slug.toLowerCase().indexOf(term) >= 0)
       ) {
         data.push(mentionable_item);
       }
     }
     return data.sortBy("slug");
-  }
+  },
 });
 
 export default MentionableItem;

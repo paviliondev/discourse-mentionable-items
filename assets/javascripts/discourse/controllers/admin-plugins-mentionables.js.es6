@@ -1,6 +1,9 @@
-import { default as discourseComputed, observes } from 'discourse-common/utils/decorators';
+import {
+  default as discourseComputed,
+  observes,
+} from "discourse-common/utils/decorators";
 import { notEmpty } from "@ember/object/computed";
-import MentionableItemLog from '../models/mentionables-log';
+import MentionableItemLog from "../models/mentionables-log";
 import Controller from "@ember/controller";
 import discourseDebounce from "discourse/lib/debounce";
 import { INPUT_DELAY } from "discourse-common/config/environment";
@@ -19,14 +22,16 @@ export default Controller.extend({
   logs: [],
 
   @observes("filter")
-  loadLogs: discourseDebounce(function() {
-    if (!this.canLoadMore) {return;}
+  loadLogs: discourseDebounce(function () {
+    if (!this.canLoadMore) {
+      return;
+    }
 
     this.set("refreshing", true);
 
     const page = this.page;
     let params = {
-      page
+      page,
     };
 
     const filter = this.filter;
@@ -35,39 +40,41 @@ export default Controller.extend({
     }
 
     MentionableItemLog.list(params)
-      .then(result => {
+      .then((result) => {
         const logs = result.logs;
         const info = result.info;
 
         if (!logs || logs.length === 0) {
-          this.set('canLoadMore', false);
+          this.set("canLoadMore", false);
         }
         if (filter && page === 0) {
-          this.set('logs', A());
+          this.set("logs", A());
         }
 
-        this.get('logs').pushObjects(
-          logs.map(l => MentionableItemLog.create(l))
+        this.get("logs").pushObjects(
+          logs.map((l) => MentionableItemLog.create(l))
         );
-        this.set('info', info);
+        this.set("info", info);
       })
       .finally(() => this.set("refreshing", false));
   }, INPUT_DELAY),
 
-  @discourseComputed('hasLogs', 'refreshing')
+  @discourseComputed("hasLogs", "refreshing")
   noResults(hasLogs, refreshing) {
     return !hasLogs && !refreshing;
   },
 
   showMessage(key) {
-    this.set('message', I18n.t(`mentionables.${key}`));
-    setTimeout(() => { this.set('message', null); }, 20000);
+    this.set("message", I18n.t(`mentionables.${key}`));
+    setTimeout(() => {
+      this.set("message", null);
+    }, 20000);
   },
 
   actions: {
     loadMore() {
-      let currentPage = this.get('page');
-      this.set('page', currentPage += 1);
+      let currentPage = this.get("page");
+      this.set("page", (currentPage += 1));
       this.loadLogs();
     },
 
@@ -75,31 +82,35 @@ export default Controller.extend({
       this.setProperties({
         canLoadMore: true,
         page: 0,
-        logs: []
+        logs: [],
       });
       this.loadLogs();
     },
 
     startImport() {
       ajax(mentionablesPath, {
-        type: 'POST'
-      }).then(result => {
-        this.showMessage(result.success ? "import_started" : "error");
-      }).catch(popupAjaxError)
+        type: "POST",
+      })
+        .then((result) => {
+          this.showMessage(result.success ? "import_started" : "error");
+        })
+        .catch(popupAjaxError)
         .finally(() => {
-          this.set('loading', false);
+          this.set("loading", false);
         });
     },
 
     deleteData() {
       ajax(mentionablesPath, {
-        type: 'DELETE'
-      }).then(result => {
-        this.showMessage(result.success ? "data_deleted" : "error");
-      }).catch(popupAjaxError)
+        type: "DELETE",
+      })
+        .then((result) => {
+          this.showMessage(result.success ? "data_deleted" : "error");
+        })
+        .catch(popupAjaxError)
         .finally(() => {
-          this.set('loading', false);
+          this.set("loading", false);
         });
-    }
-  }
+    },
+  },
 });

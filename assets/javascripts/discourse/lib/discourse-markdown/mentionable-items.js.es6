@@ -8,9 +8,7 @@ registerOption((siteSettings, opts) => {
 
 function setupMarkdownIt(helper) {
   helper.registerOptions((opts, siteSettings) => {
-    opts.features[
-      "mentionable-items"
-    ] = !!siteSettings.mentionables_enabled;
+    opts.features["mentionable-items"] = !!siteSettings.mentionables_enabled;
   });
 
   helper.registerPlugin((md) => {

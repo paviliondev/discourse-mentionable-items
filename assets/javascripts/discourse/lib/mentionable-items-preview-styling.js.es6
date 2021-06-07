@@ -15,14 +15,16 @@ export function linkSeenMentionableItems($elem, siteSettings) {
   const items = [
     ...$mentionableitems.map((_, mentionableitem) =>
       mentionableitem.innerText.substr(1)
-    )
+    ),
   ];
 
   $mentionableitems.each((index, mentionableitem) => {
     let item = items[index];
     let item_data = searchMentionableItem(item, siteSettings)[0];
 
-    if (!item_data || !item_data.model) {return;}
+    if (!item_data || !item_data.model) {
+      return;
+    }
 
     if (item_data.model.slug === item) {
       replaceSpan($(mentionableitem), item_data);

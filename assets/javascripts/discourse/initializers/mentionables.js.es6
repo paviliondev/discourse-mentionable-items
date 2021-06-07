@@ -13,7 +13,9 @@ export default {
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
 
-    if (!siteSettings.mentionables_enabled) {return;}
+    if (!siteSettings.mentionables_enabled) {
+      return;
+    }
 
     const length = Site.current().mentionable_items.length;
     const obj = EmberObject.create(Site.current().mentionable_items);
@@ -38,7 +40,10 @@ export default {
               return this._focusTextArea();
             },
             transformComplete: (item) => item.model.slug,
-            dataSource: (term) => term.match(/\s/) ? null : searchMentionableItem(term, siteSettings),
+            dataSource: (term) =>
+              term.match(/\s/)
+                ? null
+                : searchMentionableItem(term, siteSettings),
             triggerRule: (textarea) =>
               !inCodeBlock(textarea.value, caretPosition(textarea)),
           });
@@ -54,7 +59,7 @@ export default {
             }
             linkSeenMentionableItems($preview, siteSettings);
           });
-        }
+        },
       });
     });
   },
