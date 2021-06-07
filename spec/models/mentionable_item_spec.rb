@@ -2,7 +2,7 @@
 require_relative '../plugin_helper'
 
 describe MentionableItem do
-  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionable-items/spec/fixtures"
+  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionables/spec/fixtures"
 
   before do
     CSV.foreach("#{FIXTURE_PATH}/required_only.csv", headers: true) do |row|

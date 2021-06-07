@@ -27,7 +27,8 @@ class ::Mentionables::ImportResult
       invalid_format: 2,
       duplicate: 3,
       failed_to_create: 4,
-      invalid_slug: 5
+      invalid_slug: 5,
+      error: 6
     )
   end
 
