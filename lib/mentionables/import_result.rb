@@ -57,6 +57,6 @@ class ::Mentionables::ImportResult
   end
 
   def error?
-    error.present?
+    error.to_i > 0
   end
 end
