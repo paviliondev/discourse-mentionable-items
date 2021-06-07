@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Mentionables::Log
   include ActiveModel::Serialization
 

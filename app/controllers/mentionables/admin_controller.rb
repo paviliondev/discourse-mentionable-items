@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Mentionables::AdminController < ::Admin::AdminController
   def index
     logs = Mentionables::Log.list(page: params[:page].to_i, filter: params[:filter])

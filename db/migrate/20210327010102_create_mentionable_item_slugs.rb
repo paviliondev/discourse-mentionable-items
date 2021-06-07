@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateMentionableItemSlugs < ActiveRecord::Migration[5.2]
   def up
     create_table :mentionable_item_slugs do |t|

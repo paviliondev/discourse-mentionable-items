@@ -113,7 +113,7 @@ class ::Mentionables::Source
       return false
     end
 
-    return item
+    item
   end
 
   def add_to_result(key, identifier)

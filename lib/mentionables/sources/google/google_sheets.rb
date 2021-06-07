@@ -64,9 +64,9 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
       session = GoogleDrive::Session.from_access_token(access_token)
       return { error_key: 'failed_to_create_session' } if !session.present?
 
-      return session.spreadsheet_by_url(spreadsheet_url)
+      session.spreadsheet_by_url(spreadsheet_url)
     rescue => error
-      return error
+      error
     end
   end
 end

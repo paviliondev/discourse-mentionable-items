@@ -2,7 +2,7 @@
 
 module Jobs
   class ImportMentionableItems < ::Jobs::Base
-    def execute(args={})
+    def execute(args = {})
       source_name = SiteSetting.mentionables_source.to_s
       klass = "Mentionables::#{source_name.camelize}".constantize
 

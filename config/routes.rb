@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Discourse::Application.routes.append do
   get '/admin/plugins/mentionables' => 'mentionables/admin#index', constraints: AdminConstraint.new
   post '/admin/plugins/mentionables' => 'mentionables/admin#import', constraints: AdminConstraint.new

@@ -22,7 +22,6 @@ describe MentionableItem do
   it "does not validate if missing slug and mentionables_generate_slugs is false" do
     SiteSetting.mentionables_generate_slugs = false
     mentionable_item = described_class.new(@required_item)
-    byebug
     expect(mentionable_item).to_not be_valid
   end
 

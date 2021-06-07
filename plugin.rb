@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # name: discourse-mentionables
 # about: Allows users to +mention custom data in posts
 # email contacts: robert@thepavilion.io
@@ -16,7 +17,7 @@ gem 'memoist', '0.16.2', require: false
 gem 'declarative-option', '0.1.0', require: false
 gem 'declarative', '0.0.20', require: false
 gem 'trailblazer-option', '0.1.0', require: false
-gem 'uber','0.1.0', require: false
+gem 'uber', '0.1.0', require: false
 gem 'representable', '3.0.4', require: false
 gem 'googleauth', '0.16.0', require: false
 gem 'google-apis-core', '0.3.0', require: false

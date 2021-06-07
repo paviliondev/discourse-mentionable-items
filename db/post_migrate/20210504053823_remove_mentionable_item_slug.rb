@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RemoveMentionableItemSlug < ActiveRecord::Migration[6.0]
   def up
     drop_table :mentionable_item_slugs

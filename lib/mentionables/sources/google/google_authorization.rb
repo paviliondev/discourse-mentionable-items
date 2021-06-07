@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'excon'
 require 'jwt'
 require "base64url"
@@ -25,7 +26,7 @@ class Mentionables::GoogleAuthorization
   end
 
   def self.calculate_jwt
-    header = {"alg":"RS256","typ":"JWT"}
+    header = { "alg": "RS256", "typ": "JWT" }
     headerJWT = Base64URL.encode(JSON.generate(header))
     claims = {
       "iss": SiteSetting.mentionables_google_service_account_email,
@@ -51,10 +52,10 @@ class Mentionables::GoogleAuthorization
     }
 
     result = Excon.post("#{BASE_API_URL}/token",
-      :headers => {
+      headers: {
         "Content-Type" => "application/x-www-form-urlencoded"
       },
-      :body => URI.encode_www_form(body)
+      body: URI.encode_www_form(body)
     )
 
     handle_token_result(result)

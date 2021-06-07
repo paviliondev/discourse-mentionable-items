@@ -54,7 +54,7 @@ class ::Mentionables::ImportResult
 
     result
   end
-  
+
   def error?
     error.present?
   end

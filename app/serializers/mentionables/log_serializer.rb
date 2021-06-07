@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Mentionables::LogSerializer < ::ApplicationSerializer
   attributes :type,
              :source,
