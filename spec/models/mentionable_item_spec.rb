@@ -2,7 +2,7 @@
 require_relative '../plugin_helper'
 
 describe MentionableItem do
-  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionable-items/spec/fixtures"
+  FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionables/spec/fixtures"
 
   before do
     CSV.foreach("#{FIXTURE_PATH}/required_only.csv", headers: true) do |row|
@@ -13,21 +13,20 @@ describe MentionableItem do
     end
   end
 
-  it "adds missing slug if mentionable_items_generate_slugs is true" do
+  it "adds missing slug if mentionables_generate_slugs is true" do
     mentionable_item = described_class.new(@required_item)
     mentionable_item.save
     expect(mentionable_item.reload.slug).to eq('bbc')
   end
 
-  it "does not validate if missing slug and mentionable_items_generate_slugs is false" do
-    SiteSetting.mentionable_items_generate_slugs = false
+  it "does not validate if missing slug and mentionables_generate_slugs is false" do
+    SiteSetting.mentionables_generate_slugs = false
     mentionable_item = described_class.new(@required_item)
-    byebug
     expect(mentionable_item).to_not be_valid
   end
 
   it "allows user to provide slug" do
-    SiteSetting.mentionable_items_generate_slugs = false
+    SiteSetting.mentionables_generate_slugs = false
     mentionable_item = described_class.new(@required_and_optional_item)
     mentionable_item.save
     expect(mentionable_item.reload.slug).to eq('bbc-news')

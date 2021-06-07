@@ -1,4 +1,5 @@
-class MentionableItems::Log
+# frozen_string_literal: true
+class Mentionables::Log
   include ActiveModel::Serialization
 
   attr_accessor :type,
@@ -30,7 +31,7 @@ class MentionableItems::Log
     log_id = SecureRandom.hex(8)
 
     PluginStore.set(
-      MentionableItems::PLUGIN_NAME,
+      Mentionables::PLUGIN_NAME,
       "log_#{log_id}",
       opts.merge(date: Time.now)
     )
@@ -38,7 +39,7 @@ class MentionableItems::Log
 
   def self.list_query
     PluginStoreRow.where("
-      plugin_name = '#{MentionableItems::PLUGIN_NAME}' AND
+      plugin_name = '#{Mentionables::PLUGIN_NAME}' AND
       key LIKE 'log_%' AND
       (value::json->'date') IS NOT NULL
     ").order("value::json->>'date' DESC")

@@ -24,7 +24,7 @@ export default Mixin.create({
 
   actions: {
     toggleDetails() {
-      this.toggleProperty('showDetails');
-    }
-  }
+      this.toggleProperty("showDetails");
+    },
+  },
 });

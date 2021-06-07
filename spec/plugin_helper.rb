@@ -3,9 +3,9 @@
 require 'simplecov'
 
 SimpleCov.start do
-  root "plugins/discourse-mentionable-items"
-  track_files "plugins/discourse-mentionable-items/**/*.rb"
-  add_filter { |src| src.filename =~ /(\/spec\/|\/db\/|plugin\.rb)/ }
+  root "plugins/discourse-mentionables"
+  track_files "plugins/discourse-mentionables/**/*.rb"
+  add_filter { |src| src.filename =~ /(\/spec\/|\/db\/|plugin\.rb|\/gems\/)/ }
 end
 
 require 'rails_helper'

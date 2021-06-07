@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'excon'
 require 'jwt'
 require "base64url"
 
-class MentionableItems::GoogleAuthorization
+class Mentionables::GoogleAuthorization
   SCOPES = %w(
     https://www.googleapis.com/auth/spreadsheets.readonly
     https://www.googleapis.com/auth/drive.readonly
@@ -17,25 +18,25 @@ class MentionableItems::GoogleAuthorization
   end
 
   def self.set_access_token(data)
-    PluginStore.set(MentionableItems::PLUGIN_NAME, 'google_sheets_access_token', data)
+    PluginStore.set(Mentionables::PLUGIN_NAME, 'google_sheets_access_token', data)
   end
 
   def self.get_access_token
-    PluginStore.get(MentionableItems::PLUGIN_NAME, 'google_sheets_access_token') || {}
+    PluginStore.get(Mentionables::PLUGIN_NAME, 'google_sheets_access_token') || {}
   end
 
   def self.calculate_jwt
-    header = {"alg":"RS256","typ":"JWT"}
+    header = { "alg": "RS256", "typ": "JWT" }
     headerJWT = Base64URL.encode(JSON.generate(header))
     claims = {
-      "iss": SiteSetting.mentionable_items_google_service_account_email,
+      "iss": SiteSetting.mentionables_google_service_account_email,
       "scope": SCOPES.join(" "),
       "aud": TOKEN_URL,
       "exp": Time.now.to_i + 3600,
       "iat": Time.now.to_i,
     }
     claimsJWT = Base64URL.encode(JSON.generate(claims))
-    private_key = SiteSetting.mentionable_items_google_service_account_private_key
+    private_key = SiteSetting.mentionables_google_service_account_private_key
     rsa_public = OpenSSL::PKey::RSA.new(private_key.gsub("\\n", "\n"))
     sig = JWT::Signature.sign('RS256', "#{headerJWT}.#{claimsJWT}", rsa_public)
     sig64 = Base64URL.encode(sig)
@@ -51,10 +52,10 @@ class MentionableItems::GoogleAuthorization
     }
 
     result = Excon.post("#{BASE_API_URL}/token",
-      :headers => {
+      headers: {
         "Content-Type" => "application/x-www-form-urlencoded"
       },
-      :body => URI.encode_www_form(body)
+      body: URI.encode_www_form(body)
     )
 
     handle_token_result(result)

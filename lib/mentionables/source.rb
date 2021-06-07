@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::MentionableItems::Source
+class ::Mentionables::Source
   REQUIRED_KEYS ||= %w(
     name
     url
@@ -26,15 +26,15 @@ class ::MentionableItems::Source
 
   def import
     if !ready?
-      MentionableItems::Log.create(
-        type: MentionableItems::Log.types[:warning],
+      Mentionables::Log.create(
+        type: Mentionables::Log.types[:warning],
         source: source_name,
-        message: I18n.t('mentionable_items.import_did_not_start')
+        message: I18n.t('mentionables.import_did_not_start')
       )
       return nil
     end
 
-    @result = MentionableItems::ImportResult.new
+    @result = Mentionables::ImportResult.new
 
     items = get_items_from_source
     @result.total = items.size
@@ -63,14 +63,14 @@ class ::MentionableItems::Source
     end
 
     if @result.error?
-      log_type = MentionableItems::Log.types[:error]
+      log_type = Mentionables::Log.types[:error]
       message = @result.error
     else
-      log_type = MentionableItems::Log.types[:report]
+      log_type = Mentionables::Log.types[:report]
       message = @result.report
     end
 
-    MentionableItems::Log.create(
+    Mentionables::Log.create(
       type: log_type,
       source: source_name,
       message: message
@@ -108,12 +108,12 @@ class ::MentionableItems::Source
       item.delete(:slug)
     end
 
-    if item[:slug].blank? && !SiteSetting.mentionable_items_generate_slugs
+    if item[:slug].blank? && !SiteSetting.mentionables_generate_slugs
       add_to_result(:invalid_slug, identifier)
       return false
     end
 
-    return item
+    item
   end
 
   def add_to_result(key, identifier)

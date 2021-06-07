@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'google_drive'
 
-class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
+class ::Mentionables::GoogleSheets < ::Mentionables::Source
   attr_reader :spreadsheet
 
   def initialize(spreadsheet = nil)
@@ -13,15 +13,15 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
       @ready = true
     else
       if spreadsheet_result.is_a?(Hash) && spreadsheet_result[:error_key]
-        message = I18n.t("mentionable_items.google_sheets.#{spreadsheet_result[:error_key]}")
+        message = I18n.t("mentionables.google_sheets.#{spreadsheet_result[:error_key]}")
       elsif message = spreadsheet_result.try(:message)
         message = message
       else
-        message = I18n.t("mentionable_items.google_sheets.failed_to_retrieve_spreadsheet")
+        message = I18n.t("mentionables.google_sheets.failed_to_retrieve_spreadsheet")
       end
 
-      MentionableItems::Log.create(
-        type: ::MentionableItems::Log.types[:warning],
+      Mentionables::Log.create(
+        type: ::Mentionables::Log.types[:warning],
         source: source_name,
         message: message
       )
@@ -35,7 +35,7 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
   def get_items_from_source
     worksheets = @spreadsheet.worksheets
 
-    if (gids = SiteSetting.mentionable_items_google_worksheet_gids.split('|')).any?
+    if (gids = SiteSetting.mentionables_google_worksheet_gids.split('|')).any?
       worksheets = worksheets.select { |w| gids.include?(w.gid) }
     end
 
@@ -55,18 +55,18 @@ class ::MentionableItems::GoogleSheets < ::MentionableItems::Source
 
   def request_spreadsheet
     begin
-      access_token = MentionableItems::GoogleAuthorization.access_token
+      access_token = Mentionables::GoogleAuthorization.access_token
       return { error_key: 'failed_to_authorize' } if !access_token.present?
 
-      spreadsheet_url = SiteSetting.mentionable_items_google_spreadsheet_url
+      spreadsheet_url = SiteSetting.mentionables_google_spreadsheet_url
       return { error_key: 'no_spreadsheet_url' } if !spreadsheet_url.present?
 
       session = GoogleDrive::Session.from_access_token(access_token)
       return { error_key: 'failed_to_create_session' } if !session.present?
 
-      return session.spreadsheet_by_url(spreadsheet_url)
+      session.spreadsheet_by_url(spreadsheet_url)
     rescue => error
-      return error
+      error
     end
   end
 end

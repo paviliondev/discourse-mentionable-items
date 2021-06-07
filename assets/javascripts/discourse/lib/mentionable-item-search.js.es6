@@ -1,5 +1,4 @@
 import MentionableItem from "../models/mentionable-item";
-import { SEPARATOR } from "../lib/discourse-markdown/mentionable-items";
 
 let cache = {};
 let cacheTime;
@@ -25,14 +24,13 @@ export function searchMentionableItem(term, siteSettings) {
     return cached;
   }
 
-  const limit = siteSettings.mentionable_items_autocomplete_limit;
+  const limit = siteSettings.mentionables_autocomplete_limit;
   let mentionable_items = MentionableItem.search(term, { limit });
-  let numOfMentionableItems = mentionable_items.length;
 
-  mentionable_items = mentionable_items.map((mentionable_item) => {
+  mentionable_items = mentionable_items.map((item) => {
     return {
-      model: mentionable_item,
-      text: MentionableItem.nameFor(mentionable_item, SEPARATOR, 2),
+      model: item,
+      text: MentionableItem.nameFor(item),
     };
   });
 

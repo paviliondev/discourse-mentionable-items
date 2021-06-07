@@ -1,21 +1,21 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { findRawTemplate } from "discourse-common/lib/raw-templates";
 import { searchMentionableItem } from "../lib/mentionable-item-search";
-import { linkSeenMentionableItems } from "../lib/mentionable-items-preview-styling"
+import { linkSeenMentionableItems } from "../lib/mentionable-items-preview-styling";
 import { SEPARATOR } from "../lib/discourse-markdown/mentionable-items";
-import { set } from "@ember/object";
-import { inCodeBlock, caretPosition } from "discourse/lib/utilities";
-import EmberObject from "@ember/object";
+import EmberObject, { set } from "@ember/object";
+import { caretPosition, inCodeBlock } from "discourse/lib/utilities";
 import Site from "discourse/models/site";
 import { schedule } from "@ember/runloop";
 
 export default {
   name: "mentionable-items",
   initialize(container) {
-    const currentUser = container.lookup("current-user:main");
     const siteSettings = container.lookup("site-settings:main");
 
-    if (!siteSettings.mentionable_items_enabled) return;
+    if (!siteSettings.mentionables_enabled) {
+      return;
+    }
 
     const length = Site.current().mentionable_items.length;
     const obj = EmberObject.create(Site.current().mentionable_items);
@@ -39,8 +39,11 @@ export default {
               this.set("value", value);
               return this._focusTextArea();
             },
-            transformComplete: (obj) => obj.model.slug,
-            dataSource: (term) => term.match(/\s/) ? null : searchMentionableItem(term, siteSettings),
+            transformComplete: (item) => item.model.slug,
+            dataSource: (term) =>
+              term.match(/\s/)
+                ? null
+                : searchMentionableItem(term, siteSettings),
             triggerRule: (textarea) =>
               !inCodeBlock(textarea.value, caretPosition(textarea)),
           });
@@ -56,7 +59,7 @@ export default {
             }
             linkSeenMentionableItems($preview, siteSettings);
           });
-        }
+        },
       });
     });
   },

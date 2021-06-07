@@ -2,9 +2,9 @@
 
 module Jobs
   class ImportMentionableItems < ::Jobs::Base
-    def execute(args={})
-      source_name = SiteSetting.mentionable_items_source.to_s
-      klass = "MentionableItems::#{source_name.camelize}".constantize
+    def execute(args = {})
+      source_name = SiteSetting.mentionables_source.to_s
+      klass = "Mentionables::#{source_name.camelize}".constantize
 
       if klass&.respond_to?(:new)
         source = klass.new

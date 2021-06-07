@@ -1,9 +1,10 @@
-module ::MentionableItems
-  PLUGIN_NAME ||= 'mentionable_items'
+# frozen_string_literal: true
+module ::Mentionables
+  PLUGIN_NAME ||= 'mentionables'
 
   class Engine < ::Rails::Engine
     engine_name PLUGIN_NAME
-    isolate_namespace MentionableItems
+    isolate_namespace Mentionables
   end
 
   def self.info

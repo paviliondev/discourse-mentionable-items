@@ -1,20 +1,20 @@
 plugins:
-  mentionable_items_enabled:
+  mentionables_enabled:
     default: true
     client: true
-  mentionable_items_source:
+  mentionables_source:
     type: enum
     default: 'google_sheets'
     choices:
       - google_sheets
-  mentionable_items_onebox_fallback: false
-  mentionable_items_generate_slugs: true
-  mentionable_items_autocomplete_limit:
+  mentionables_onebox_fallback: false
+  mentionables_generate_slugs: true
+  mentionables_autocomplete_limit:
     default: 5
     client: true
-  mentionable_items_google_spreadsheet_url: ''
-  mentionable_items_google_worksheet_gids:
+  mentionables_google_spreadsheet_url: ''
+  mentionables_google_worksheet_gids:
     type: list
     default: ''
-  mentionable_items_google_service_account_private_key: ''
-  mentionable_items_google_service_account_email: ''
+  mentionables_google_service_account_private_key: ''
+  mentionables_google_service_account_email: ''

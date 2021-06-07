@@ -1,17 +1,17 @@
 en:
   site_settings:
-    mentionable_items_enabled: "Enable the Mentionable Items plugin"
-    mentionable_items_source: "Mentionable items data source"
-    mentionable_items_onebox_fallback: "Attempt to retrieve item attributes from the url if they are not present in data. Will make imports slower."
-    mentionable_items_generate_slugs: "Generate an item slug from the item name if there is no slug in the data source."
-    mentionable_items_autocomplete_limit: "Maximum number of mentionable items to show in composer autocomplete."
-    mentionable_items_google_spreadsheet_url: "URL of the Google spreadsheet"
-    mentionable_items_google_worksheet_gids: "Restrict Google spreadsheet import to worksheet GIDs. If emtpy, all worksheets will be imported."
-    mentionable_items_google_service_account_email: "Google API Service Account Email"
-    mentionable_items_google_service_account_private_key: "Google API Service Account Private Key"
+    mentionables_enabled: "Enable the Mentionables plugin"
+    mentionables_source: "Mentionables data source"
+    mentionables_onebox_fallback: "Attempt to retrieve mentionable attributes from the url if they are not present in data. This will make imports slower."
+    mentionables_generate_slugs: "Generate a slug from the mentionable name if there is no slug in the data source."
+    mentionables_autocomplete_limit: "Maximum number of mentionables to show in composer autocomplete."
+    mentionables_google_spreadsheet_url: "URL of the Google spreadsheet"
+    mentionables_google_worksheet_gids: "Restrict Google spreadsheet import to worksheet GIDs. If empty, all worksheets will be imported."
+    mentionables_google_service_account_email: "Google API Service Account Email"
+    mentionables_google_service_account_private_key: "Google API Service Account Private Key"
 
-  mentionable_items:
-    title: Mentionable Items
+  mentionables:
+    title: Mentionables
     import_did_not_start: "Import did not start as the source importer is not ready."
     google_sheets:
       failed_to_authorize: "Failed to authorize with Google. Please check your credentials"

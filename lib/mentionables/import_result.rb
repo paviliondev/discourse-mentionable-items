@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::MentionableItems::ImportResult
+class ::Mentionables::ImportResult
   attr_accessor :total,
                 :error,
                 :missing_required_items,
@@ -27,7 +27,8 @@ class ::MentionableItems::ImportResult
       invalid_format: 2,
       duplicate: 3,
       failed_to_create: 4,
-      invalid_slug: 5
+      invalid_slug: 5,
+      error: 6
     )
   end
 
@@ -54,8 +55,8 @@ class ::MentionableItems::ImportResult
 
     result
   end
-  
+
   def error?
-    error.present?
+    error.to_i > 0
   end
 end

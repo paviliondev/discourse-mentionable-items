@@ -1,11 +1,9 @@
-{{d-button
-  icon="info-circle"
-  action="toggleDetails"
-  title="mentionable_items.info.title"
-  label="mentionable_items.info.title"
-}}
+<a {{action "toggleDetails"}} role="button" title={{i18n "mentionables.info.title"}}>
+  {{d-icon "info-circle"}}
+  {{i18n "mentionables.info.title"}}
+</a>
 {{#if showDetails}}
   <div class="details">
-    {{i18n 'mentionable_items.info.total' total=info.total}}
+    {{i18n "mentionables.info.total" total=info.total}}
   </div>
 {{/if}}

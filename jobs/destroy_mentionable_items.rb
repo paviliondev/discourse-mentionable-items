@@ -2,7 +2,7 @@
 
 module Jobs
   class DestroyMentionableItems < ::Jobs::Base
-    def execute(args={})
+    def execute(args = {})
       MentionableItem.destroy_all
     end
   end
