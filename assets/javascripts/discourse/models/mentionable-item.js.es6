@@ -6,20 +6,24 @@ import { get } from "@ember/object";
 const MentionableItem = RestModel.extend({
   @discourseComputed("id")
   searchContext(id) {
-    return { type: "mentionable_item", id, mentionable_item: this };
+    return {
+      type: "mentionable_item",
+      id,
+      mentionable_item: this
+    };
   },
 });
 
 MentionableItem.reopenClass({
-  nameFor(mentionable_item, separator = "/", depth = 3) {
-    if (!mentionable_item) {
+  nameFor(item) {
+    if (!item) {
       return "";
     }
 
     let result = "";
 
-    const id = get(mentionable_item, "id"),
-      name = get(mentionable_item, "name");
+    const id = get(item, "id");
+    const name = get(item, "name");
 
     return !name || name.trim().length === 0
       ? `${result}${id}-mentionable_item`
@@ -64,7 +68,6 @@ MentionableItem.reopenClass({
     }
 
     const emptyTerm = term === "";
-    let nameTerm = term;
 
     if (!emptyTerm) {
       term = term.toLowerCase();

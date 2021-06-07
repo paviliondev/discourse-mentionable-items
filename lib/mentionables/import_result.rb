@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::MentionableItems::ImportResult
+class ::Mentionables::ImportResult
   attr_accessor :total,
                 :error,
                 :missing_required_items,

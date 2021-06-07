@@ -3,14 +3,14 @@ import { registerOption } from "pretty-text/pretty-text";
 export const SEPARATOR = "+";
 
 registerOption((siteSettings, opts) => {
-  opts.features["mentionable-items"] = !!siteSettings.mentionable_items_enabled;
+  opts.features["mentionable-items"] = !!siteSettings.mentionables_enabled;
 });
 
 function setupMarkdownIt(helper) {
   helper.registerOptions((opts, siteSettings) => {
     opts.features[
       "mentionable-items"
-    ] = !!siteSettings.mentionable_items_enabled;
+    ] = !!siteSettings.mentionables_enabled;
   });
 
   helper.registerPlugin((md) => {
@@ -28,8 +28,6 @@ export function setup(helper) {
 
   if (helper.markdownIt) {
     setupMarkdownIt(helper);
-  } else {
-    helper.addPreProcessor(replaceMentionableItems);
   }
 }
 

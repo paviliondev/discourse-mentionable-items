@@ -11,7 +11,7 @@ export default Component.extend(Dropdown, {
 
   @discourseComputed('log.type')
   messageTitle(type) {
-    return I18n.t(`mentionable_items.log.${type}.title`);
+    return I18n.t(`mentionables.log.${type}.title`);
   },
 
   @discourseComputed('log.type', 'log.message')
@@ -20,7 +20,7 @@ export default Component.extend(Dropdown, {
       return this.reportDetails(message);
     }
     if (typesWithDescriptions.includes(type)) {
-      return I18n.t(`mentionable_items.log.${type}.description`);
+      return I18n.t(`mentionables.log.${type}.description`);
     }
     return message;
   },
@@ -35,7 +35,7 @@ export default Component.extend(Dropdown, {
         opts.count = message[key];
       }
 
-      return I18n.t(`mentionable_items.log.report.${key}`, opts);
+      return I18n.t(`mentionables.log.report.${key}`, opts);
     });
   }
 });

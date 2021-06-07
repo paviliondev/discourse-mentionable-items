@@ -1,4 +1,4 @@
-module MentionableItems::PostProcess
+module Mentionables::PostProcess
   def self.add_links(doc, post)
     doc.css('span.mentionable-item').each do |span|
       slug = span.inner_html[1..]

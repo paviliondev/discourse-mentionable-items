@@ -3,17 +3,17 @@ import { popupAjaxError } from 'discourse/lib/ajax-error';
 import EmberObject from "@ember/object";
 import { equal } from "@ember/object/computed";
 
-const MentionableItemLog = EmberObject.extend({
+const MentionablesLog = EmberObject.extend({
   isReport: equal('type', 'report')
 });
 
-MentionableItemLog.reopenClass({
+MentionablesLog.reopenClass({
   list(params = {}) {
-    return ajax('/admin/plugins/mentionable-items', {
+    return ajax('/admin/plugins/mentionables', {
       data: params
     }).catch(popupAjaxError);
   }
 });
 
-export default MentionableItemLog;
+export default MentionablesLog;
 

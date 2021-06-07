@@ -4,27 +4,27 @@ class MentionableItem < ActiveRecord::Base
   validates :slug, presence: true, uniqueness: true
 
   before_validation do
-    if !self.slug && SiteSetting.mentionable_items_generate_slugs
+    if !self.slug && SiteSetting.mentionables_generate_slugs
       self.slug = self.name.parameterize
     end
   end
 
   before_save do
-    if SiteSetting.mentionable_items_onebox_fallback
+    if SiteSetting.mentionables_onebox_fallback
       apply_onebox_fallback
     end
   end
 
   def self.destroy_all
     self.all.destroy_all
-    MentionableItems::Log.create(
-      type: MentionableItems::Log.types[:destroy_all],
+    Mentionables::Log.create(
+      type: Mentionables::Log.types[:destroy_all],
       source: nil
     )
   end
 
   def self.remove!(item)
-    MentionableItem
+    Mentionables
       .where(url: item[:url])
       .destroy_all
   end

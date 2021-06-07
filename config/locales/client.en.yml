@@ -1,7 +1,7 @@
 en:
   js:  
-    mentionable_items:
-      title: "Mentionable Items"
+    mentionables:
+      title: "Mentionables"
       import: "Start Import"
       import_started: >
         Your import has started. Depending on the size of your data, it may
@@ -13,9 +13,9 @@ en:
         We've started to remove all mentionables data from your Discourse database.
         It will take a few minutes for the process to complete. When it completes
         you will see a new message in the list below, which you can refresh by
-        clicking "Refresh". You can safely close this window without affecting
-        the removal process. This process will not affect your mentionables data
-        in your mentionables data source (e.g. your spreadsheet).
+        clicking "Refresh". You can safely close this window without effecting
+        the removal process. This process will not effect the data in your mentionables
+        data source (e.g. your spreadsheet).
       error: "Something went wrong. Please try again."
       info:
         title: Info
