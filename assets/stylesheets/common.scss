@@ -15,7 +15,7 @@ a.mentionable-item span {
 }
 
 .ac-mentionable-item-name {
-  padding-left: .5em;
+  padding-left: 0.5em;
 }
 
 .ac-mentionable-item-image {
@@ -45,7 +45,7 @@ a.mentionable-item span {
       display: flex;
 
       > * {
-        margin-left: .5em;
+        margin-left: 0.5em;
       }
     }
   }
@@ -68,7 +68,7 @@ a.mentionable-item span {
     padding: 1em;
     margin: 1em 0;
   }
-  
+
   .mentionables-dropdown {
     position: relative;
 
@@ -76,9 +76,9 @@ a.mentionable-item span {
       position: absolute;
       top: 25px;
       background-color: $secondary;
-      padding: .5em 1em;
+      padding: 0.5em 1em;
       border-top: 1px solid $primary-low;
-      box-shadow: shadow('dropdown');
+      box-shadow: shadow("dropdown");
       z-index: 99;
       right: 0;
       min-width: 300px;
@@ -86,10 +86,10 @@ a.mentionable-item span {
       ul {
         list-style: none;
         margin: 0;
-        
+
         li {
           white-space: nowrap;
-          margin: .5em 0;
+          margin: 0.5em 0;
         }
       }
     }
