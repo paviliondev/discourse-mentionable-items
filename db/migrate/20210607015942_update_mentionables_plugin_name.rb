@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UpdateMentionablesPluginName < ActiveRecord::Migration[6.1]
   def up
     PluginStoreRow.where("plugin_name = 'mentionable_items'").each do |record|
