@@ -1,6 +1,9 @@
 en:
   js:  
     mentionables:
+      composer:
+        insert:
+          title: "Insert mentionable"
       title: "Mentionables"
       import: "Start Import"
       import_started: >

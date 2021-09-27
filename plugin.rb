@@ -28,10 +28,11 @@ gem 'google_drive', '3.0.6', require: false
 gem 'base64url', '1.0.1', require: false
 
 enabled_site_setting :mentionables_enabled
-
 add_admin_route "mentionables.title", "mentionables"
-
 register_asset 'stylesheets/common.scss'
+
+#added svg icons
+register_svg_icon 'shopping-cart'
 
 after_initialize do
   %w(
@@ -59,5 +60,14 @@ after_initialize do
 
   on(:before_post_process_cooked) do |doc, post|
     Mentionables::PostProcess.add_links(doc, post)
+  end
+end
+
+DiscourseEvent.on(:custom_wizard_ready) do
+  if defined?(CustomWizard) == 'constant' && CustomWizard.class == Module
+    CustomWizard::Field.register('mentionables', 'discourse-mentionables', ['models', 'lib', 'stylesheets', 'templates'])
+    CustomWizard::WizardSerializer.attributes("mentionable_items")
+    CustomWizard::WizardSerializer.public_send(:define_method, "include_mentionable_items?") { SiteSetting.mentionables_enabled }
+    CustomWizard::WizardSerializer.public_send(:define_method, "mentionable_items") { MentionableItem.all }
   end
 end

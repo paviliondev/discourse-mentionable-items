@@ -28,10 +28,10 @@ export default {
         didInsertElement() {
           this._super(...arguments);
           const $editorInput = $(this.element.querySelector(".d-editor-input"));
-          this._applyMentionablItemsAutocomplete($editorInput);
+          this._applyMentionableItemsAutocomplete($editorInput);
         },
 
-        _applyMentionablItemsAutocomplete($editorInput) {
+        _applyMentionableItemsAutocomplete($editorInput) {
           $editorInput.autocomplete({
             template: findRawTemplate("mentionable-item-autocomplete"),
             key: SEPARATOR,
@@ -60,6 +60,20 @@ export default {
             linkSeenMentionableItems($preview, siteSettings);
           });
         },
+      });
+
+      api.onToolbarCreate(toolbar => {
+        toolbar.addButton({
+          id: 'insert-mentionable',
+          group: 'extras',
+          icon: siteSettings.mentionables_composer_button_icon,
+          title: 'mentionables.composer.insert.title',
+          perform: (e) => {
+            e.addText(SEPARATOR);
+            $(document.querySelector("#reply-control .d-editor-input"))
+              .trigger("keyup.autocomplete");
+          }
+        });
       });
     });
   },

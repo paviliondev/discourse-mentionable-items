@@ -9,6 +9,7 @@ en:
     mentionables_google_worksheet_gids: "Restrict Google spreadsheet import to worksheet GIDs. If empty, all worksheets will be imported."
     mentionables_google_service_account_email: "Google API Service Account Email"
     mentionables_google_service_account_private_key: "Google API Service Account Private Key"
+    mentionables_composer_button_icon: "Mentionables composer button icon class. See <a href='https://github.com/discourse/discourse/blob/main/lib/svg_sprite/svg_sprite.rb' target='_blank'>Discourse svg sprite classes</a>, and <a href='https://github.com/paviliondev/discourse-mentionables/blob/main/plugin.rb#L34' target='_blank'>Mentionables classes</a>."
 
   mentionables:
     title: Mentionables
