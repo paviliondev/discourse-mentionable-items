@@ -62,17 +62,18 @@ export default {
         },
       });
 
-      api.onToolbarCreate(toolbar => {
+      api.onToolbarCreate((toolbar) => {
         toolbar.addButton({
-          id: 'insert-mentionable',
-          group: 'extras',
+          id: "insert-mentionable",
+          group: "extras",
           icon: siteSettings.mentionables_composer_button_icon,
-          title: 'mentionables.composer.insert.title',
+          title: "mentionables.composer.insert.title",
           perform: (e) => {
             e.addText(SEPARATOR);
-            $(document.querySelector("#reply-control .d-editor-input"))
-              .trigger("keyup.autocomplete");
-          }
+            $(document.querySelector("#reply-control .d-editor-input")).trigger(
+              "keyup.autocomplete"
+            );
+          },
         });
       });
     });
