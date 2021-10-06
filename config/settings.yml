@@ -18,3 +18,6 @@ plugins:
     default: ''
   mentionables_google_service_account_private_key: ''
   mentionables_google_service_account_email: ''
+  mentionables_composer_button_icon: 
+    default: '+'
+    client: true
