@@ -24,7 +24,7 @@ export default {
       return;
     }
 
-    const length = site.mentionableItems.length;
+    const length = mentionableItems.length;
     const obj = EmberObject.create(mentionableItems);
 
     set(obj, "length", length);
