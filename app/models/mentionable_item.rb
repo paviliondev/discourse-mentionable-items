@@ -4,14 +4,12 @@ class MentionableItem < ActiveRecord::Base
   validates :slug, presence: true, uniqueness: true
 
   before_validation do
-    if !self.slug && SiteSetting.mentionables_generate_slugs
-      self.slug = self.name.parameterize
-    end
-  end
-
-  before_save do
     if SiteSetting.mentionables_onebox_fallback
       apply_onebox_fallback
+    end
+
+    if !self.slug && SiteSetting.mentionables_generate_slugs && self.name
+      self.slug = self.name.parameterize
     end
   end
 

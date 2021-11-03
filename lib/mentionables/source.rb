@@ -2,11 +2,11 @@
 
 class ::Mentionables::Source
   REQUIRED_KEYS ||= %w(
-    name
     url
   )
   OPTIONAL_KEYS ||= %w(
     slug
+    name
     image_url
     description
     affiliate_snippet_1
