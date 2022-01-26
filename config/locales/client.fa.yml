@@ -1,0 +1,41 @@
+fa:
+  js:
+    mentionables:
+      composer:
+        insert:
+          title: "Insert mentionable"
+      title: "Mentionables"
+      import: "Start Import"
+      import_started: >
+        Your import has started. Depending on the size of your data, it may take a while to complete. When it completes you will see a new message in the list below, which you can refresh by clicking "Refresh". You can safely close this window without affecting the import.
+      delete_all: "Delete All"
+      data_deleted: >
+        We've started to remove all mentionables data from your Discourse database. It will take a few minutes for the process to complete. When it completes you will see a new message in the list below, which you can refresh by clicking "Refresh". You can safely close this window without effecting the removal process. This process will not effect the data in your mentionables data source (e.g. your spreadsheet).
+      error: "Something went wrong. Please try again."
+      info:
+        title: Info
+        total: There are currently %{total} mentionable items in the database.
+      logs: "Logs"
+      log:
+        filter: "type, source or message"
+        report:
+          title: Import Report
+          total: "%{count} items in total."
+          success: "%{count} items were successfully imported."
+          missing_required: "%{count} items are missing required attributes."
+          invalid_format: "%{count} items have an attribute with an invalid format."
+          duplicate: "%{count} items are duplicates."
+          failed_to_create: "%{count} items failed to be created for another reason."
+          invalid_slug: "%{count} items have invalid slugs. The slug has been generated from the item name."
+          missing_required_items: "Items missing required attributes: %{items}."
+          invalid_format_items: "Items with an invalid format: %{items}."
+          invalid_slug_items: "Items with invalid slugs: %{items}."
+        info:
+          title: Info Message
+        warning:
+          title: Warning Message
+        error:
+          title: Error Message
+        destroy_all:
+          title: Mentionables Deleted
+          description: All mentionable items were removed from the Discourse database.
