@@ -26,10 +26,10 @@ pt:
           invalid_format: "%{count} itens têm um atributo com formato inválido."
           duplicate: "%{count} itens duplicados."
           failed_to_create: "%{count} itens não foram criados por outra razão."
-          invalid_slug: "%{count} items have invalid slugs. The slug has been generated from the item name."
-          missing_required_items: "Items missing required attributes: %{items}."
-          invalid_format_items: "Items with an invalid format: %{items}."
-          invalid_slug_items: "Items with invalid slugs: %{items}."
+          invalid_slug: "%{count} itens com pedaços de texto(slugs) inválidos. O pedaço de texto(slug) foi gerado a partir do nome do item."
+          missing_required_items: "Itens com atributos obrigatórios faltando: %{items}."
+          invalid_format_items: "Itens com formatos inválidos: %{items}."
+          invalid_slug_items: "Itens com pedaços de texto inválidos: %{items}."
         info:
           title: Mensagem de informação
         warning:
