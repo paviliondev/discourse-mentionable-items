@@ -3,39 +3,39 @@ pt:
     mentionables:
       composer:
         insert:
-          title: "Insert mentionable"
-      title: "Mentionables"
-      import: "Start Import"
+          title: "Inserir menção"
+      title: "Menções"
+      import: "Iniciar importação"
       import_started: >
-        Your import has started. Depending on the size of your data, it may take a while to complete. When it completes you will see a new message in the list below, which you can refresh by clicking "Refresh". You can safely close this window without affecting the import.
-      delete_all: "Delete All"
+        Sua importação começou. Dependendo do tamanho dos seus dados, pode demorar um pouco para ser completada. Quando terminar, você verá uma nova mensagem na lista abaixo, que você poderá atualizar clicando em "Atualizar". É possível fechar esta janela com segurança sem afetar a importação.
+      delete_all: "Excluir tudo"
       data_deleted: >
-        We've started to remove all mentionables data from your Discourse database. It will take a few minutes for the process to complete. When it completes you will see a new message in the list below, which you can refresh by clicking "Refresh". You can safely close this window without effecting the removal process. This process will not effect the data in your mentionables data source (e.g. your spreadsheet).
-      error: "Something went wrong. Please try again."
+        Começamos a remover todos os dados mencionáveis do seu banco de dados de Discourse. Isso levará alguns minutos para que o processo seja concluído. Quando terminar, você verá uma nova mensagem na lista abaixo, que você poderá atualizar clicando em "Atualizar". Você pode fechar esta janela com segurança sem afetar o processo de remoção. Este processo não afetará os dados na sua fonte de dados mencionados (por exemplo, sua planilha).
+      error: "Algo deu errado. Por favor, tente novamente."
       info:
-        title: Info
-        total: There are currently %{total} mentionable items in the database.
-      logs: "Logs"
+        title: Informação
+        total: Existem %{total} itens mencionáveis no banco de dados.
+      logs: "Registros"
       log:
-        filter: "type, source or message"
+        filter: "tipo, fonte ou mensagem"
         report:
-          title: Import Report
-          total: "%{count} items in total."
-          success: "%{count} items were successfully imported."
-          missing_required: "%{count} items are missing required attributes."
-          invalid_format: "%{count} items have an attribute with an invalid format."
-          duplicate: "%{count} items are duplicates."
-          failed_to_create: "%{count} items failed to be created for another reason."
-          invalid_slug: "%{count} items have invalid slugs. The slug has been generated from the item name."
-          missing_required_items: "Items missing required attributes: %{items}."
-          invalid_format_items: "Items with an invalid format: %{items}."
-          invalid_slug_items: "Items with invalid slugs: %{items}."
+          title: Importar Relatório
+          total: "%{count} itens no total."
+          success: "%{count} itens importados com sucesso."
+          missing_required: "%{count} itens estão faltando atributos obrigatórios."
+          invalid_format: "%{count} itens têm um atributo com formato inválido."
+          duplicate: "%{count} itens duplicados."
+          failed_to_create: "%{count} itens não foram criados por outra razão."
+          invalid_slug: "%{count} itens com pedaços de texto(slugs) inválidos. O pedaço de texto(slug) foi gerado a partir do nome do item."
+          missing_required_items: "Itens com atributos obrigatórios faltando: %{items}."
+          invalid_format_items: "Itens com formatos inválidos: %{items}."
+          invalid_slug_items: "Itens com pedaços de texto inválidos: %{items}."
         info:
-          title: Info Message
+          title: Mensagem de informação
         warning:
-          title: Warning Message
+          title: Mensagem de Aviso
         error:
-          title: Error Message
+          title: Mensagem de Erro
         destroy_all:
-          title: Mentionables Deleted
-          description: All mentionable items were removed from the Discourse database.
+          title: Menções apagadas
+          description: Todos os itens mencionados foram removidos do banco de dados de discurso.
