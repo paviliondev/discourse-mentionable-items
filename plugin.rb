@@ -2,7 +2,7 @@
 # name: discourse-mentionables
 # about: Allows users to +mention custom data in posts
 # email contacts: robert@thepavilion.io
-# version: 0.4.0
+# version: 0.4.1
 # authors: Robert Barrow, Angus McLeod
 # contact_emails: development@pavilion.tech
 # url: https://github.com/paviliondev/discourse-mentionables
