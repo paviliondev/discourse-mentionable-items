@@ -32,7 +32,7 @@ export default {
 
     withPluginApi("0.8.13", (api) => {
       api.modifyClass("component:d-editor", {
-        pluginId: 'discourse-mentionables',
+        pluginId: "discourse-mentionables",
 
         didInsertElement() {
           this._super(...arguments);
