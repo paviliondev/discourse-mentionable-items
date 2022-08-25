@@ -4,6 +4,7 @@
 # email contacts: robert@thepavilion.io
 # version: 0.4.0
 # authors: Robert Barrow, Angus McLeod
+# contact_emails: development@pavilion.tech
 # url: https://github.com/paviliondev/discourse-mentionables
 
 gem 'gems', '1.2.0', require: false
