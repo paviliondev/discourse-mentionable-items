@@ -32,6 +32,8 @@ export default {
 
     withPluginApi("0.8.13", (api) => {
       api.modifyClass("component:d-editor", {
+        pluginId: 'discourse-mentionables',
+
         didInsertElement() {
           this._super(...arguments);
           const $editorInput = $(this.element.querySelector(".d-editor-input"));
