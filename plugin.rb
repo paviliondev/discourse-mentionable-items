@@ -12,7 +12,7 @@ gem 'webrick', '1.7.0', require: false
 gem 'rexml', '3.2.5', require: false
 gem 'httpclient', '2.8.3', require: false
 gem 'retriable', '3.1.2', require: false
-gem 'signet', '0.15.0', require: false
+gem 'signet', '0.17.0', require: false
 gem 'os', '1.1.1', require: false
 gem 'memoist', '0.16.2', require: false
 gem 'declarative-option', '0.1.0', require: false
