@@ -21,11 +21,12 @@ gem 'trailblazer-option', '0.1.0', require: false
 gem 'uber', '0.1.0', require: false
 gem 'representable', '3.0.4', require: false
 gem 'googleauth', '1.2.0', require: false
-gem 'google-apis-core', '0.3.0', require: false
-gem 'google-apis-discovery_v1', '0.2.0', require: false
-gem 'google-apis-generator', '0.2.0', require: false
+gem 'google-apis-core', '0.9.0', require: false
+gem 'google-apis-discovery_v1', '0.12.0', require: false
+gem 'google-apis-generator', '0.10.0', require: false
 gem 'google-api-client', '0.53.0', require: false
-gem 'google_drive', '3.0.6', require: false
+#gem 'google_drive', '3.0.7', require: false
+gem 'google_drive', git: 'https://github.com/paviliondev/google-drive-ruby', require: false
 gem 'base64url', '1.0.1', require: false
 
 enabled_site_setting :mentionables_enabled
