@@ -10,8 +10,8 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     spreadsheet_result = spreadsheet.present? ? spreadsheet : request_spreadsheet
 
     # if spreadsheet_result&.class == ::GoogleDrive::Spreadsheet
-      @spreadsheet = spreadsheet_result
-      @ready = true
+    @spreadsheet = spreadsheet_result
+    @ready = true
     # else
     #   if spreadsheet_result.is_a?(Hash) && spreadsheet_result[:error_key]
     #     message = I18n.t("mentionables.google_sheets.#{spreadsheet_result[:error_key]}")
@@ -20,12 +20,12 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     #   else
     #     message = I18n.t("mentionables.google_sheets.failed_to_retrieve_spreadsheet")
     #   end
-  rescue => error
-    Mentionables::Log.create(
-      type: ::Mentionables::Log.types[:error],
-      source: source_name,
-      message: error
-    )
+  # rescue => error
+  #   Mentionables::Log.create(
+  #     type: ::Mentionables::Log.types[:error],
+  #     source: source_name,
+  #     message: error
+  #   )
   end
 
   def source_name
@@ -88,12 +88,12 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
       client.authorization = Mentionables::GoogleAuthorization.authorizer
 
       client
-    rescue => error
-      Mentionables::Log.create(
-        type: ::Mentionables::Log.types[:error],
-        source: source_name,
-        message: error
-      )
+    # rescue => error
+    #   Mentionables::Log.create(
+    #     type: ::Mentionables::Log.types[:error],
+    #     source: source_name,
+    #     message: error
+    #   )
     end
   end
 end
