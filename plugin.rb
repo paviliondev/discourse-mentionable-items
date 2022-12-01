@@ -20,7 +20,6 @@ gem 'googleauth', '1.3.0', require: false
 gem 'google-apis-core', '0.9.1', require: false
 gem 'google-apis-sheets_v4', '0.20.0', require: false
 gem 'google-apis-drive_v3', '0.32.0', require: false
-gem 'google_drive2', '3.0.9', require: false
 
 enabled_site_setting :mentionables_enabled
 add_admin_route "mentionables.title", "mentionables"
