@@ -13,6 +13,7 @@ plugins:
     default: 5
     client: true
   mentionables_google_spreadsheet_url: ''
+  mentionables_google_spreadsheet_id: ''
   mentionables_google_worksheet_gids:
     type: list
     default: ''
