@@ -3,8 +3,6 @@
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 
-OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
-
 class Mentionables::GoogleAuthorization
   SCOPES = %w(
     https://www.googleapis.com/auth/spreadsheets.readonly
