@@ -72,7 +72,6 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
       end
     end
 
-    byebug
     items
   end
 
