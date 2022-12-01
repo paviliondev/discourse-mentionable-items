@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'googleauth'
-require 'googleauth/stores/file_token_store'
+# require 'googleauth/stores/file_token_store'
 
 class Mentionables::GoogleAuthorization
   SCOPES = %w(
