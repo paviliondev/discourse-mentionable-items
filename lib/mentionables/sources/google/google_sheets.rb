@@ -24,7 +24,7 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     Mentionables::Log.create(
       type: ::Mentionables::Log.types[:error],
       source: source_name,
-      message: message
+      message: error
     )
   end
 
@@ -74,7 +74,7 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
       Mentionables::Log.create(
         type: ::Mentionables::Log.types[:error],
         source: source_name,
-        message: message
+        message: error
       )
     end
   end

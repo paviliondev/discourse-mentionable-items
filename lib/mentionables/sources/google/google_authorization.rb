@@ -67,13 +67,13 @@ class Mentionables::GoogleAuthorization
 
   # end
 
-  def authorizer
+  def self.authorizer
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
       json_key_io: StringIO.new(credentials),
       scope: SCOPES)
   end
 
-  def credentials
+  def self.credentials
     @credentials ||= {
       type: "service_account",
       private_key: SiteSetting.mentionables_google_service_account_private_key,
