@@ -17,6 +17,11 @@ plugins:
   mentionables_google_worksheet_gids:
     type: list
     default: ''
+  mentionables_google_worksheet_names:
+    type: list
+    default: 'Sheet1'
+  mentionables_google_worksheet_max_row:
+    default: 1000
   mentionables_google_service_account_private_key: ''
   mentionables_google_service_account_email: ''
   mentionables_composer_button_icon: 

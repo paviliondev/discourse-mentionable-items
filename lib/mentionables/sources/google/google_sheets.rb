@@ -33,23 +33,46 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
   end
 
   def get_items_from_source
-    worksheets = @spreadsheet.sheets
+    spreadsheet_id = SiteSetting.mentionables_google_spreadsheet_id
+    # worksheets = @spreadsheet.sheets
 
-    if (gids = SiteSetting.mentionables_google_worksheet_gids.split('|')).any?
-      worksheets = worksheets.select { |w| gids.include?(w.gid) }
-    end
+    # client.get_spreadsheet_values(spreadsheet_id, "Sheet1!A1:D1000")
 
-    rows = worksheets.map { |w| w.list.map { |r| r } }.flatten
+    # if (gids = SiteSetting.mentionables_google_worksheet_gids.split('|')).any?
+    #   worksheets = worksheets.select { |w| gids.include?(w.gid) }
+    # end
+
+    sheets = SiteSetting.mentionables_google_worksheet_names.split('|')
+
     items = []
 
-    rows.each do |row|
-      item = {}
-      row_hash = row.to_hash.transform_keys(&:downcase)
-      valid_keys = row_hash.keys.select { |key| KEYS.include?(key) }
-      valid_keys.each { |key| item[key.to_sym] = row_hash[key] }
-      items.push(item)
+    sheets.each do |sheet|
+      data = spreadsheet.get_spreadsheet_values(spreadsheet_id, "#{sheet}!A1:H#{SiteSetting.mentionables_google_worksheet_max_row}").values
+      valid_columns = []
+      column_keys = []
+      data.each_with_index do |row, index|
+        if index == 0
+          row.each_with_index do |value, column_index|
+            if KEYS.include?(value)
+              valid_columns.push(column_index)
+            end
+            column_keys.push(value)
+          end
+        else
+          item = {}
+          row.each_with_index do |value, column_index|
+            if valid_columns.include?(column_index)
+              item[column_keys[column_index].to_sym] = value
+            end
+          end
+          if !item.empty?
+            items.push(item)
+          end
+        end
+      end
     end
 
+    byebug
     items
   end
 
@@ -65,11 +88,7 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
 
       client.authorization = Mentionables::GoogleAuthorization.authorizer
 
-      # session = GoogleDrive::Session.from_access_token(access_token)
-      # return { error_key: 'failed_to_create_session' } if !session.present?
-
-    #  session.spreadsheet_by_url(spreadsheet_url)
-      client.get_spreadsheet(spreadsheet_id)
+      client
     rescue => error
       Mentionables::Log.create(
         type: ::Mentionables::Log.types[:error],
