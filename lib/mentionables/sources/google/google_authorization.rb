@@ -3,6 +3,11 @@ require 'excon'
 require 'jwt'
 require "base64url"
 
+require 'googleauth'
+require 'googleauth/stores/file_token_store'
+
+OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
+
 class Mentionables::GoogleAuthorization
   SCOPES = %w(
     https://www.googleapis.com/auth/spreadsheets.readonly
@@ -45,21 +50,51 @@ class Mentionables::GoogleAuthorization
   end
 
   def self.request_access_token
-    token = calculate_jwt
-    body = {
-      grant_type: GRANT_TYPE,
-      assertion: token
-    }
+    # token = calculate_jwt
+    # body = {
+    #   grant_type: GRANT_TYPE,
+    #   assertion: token
+    # }
 
-    result = Excon.post("#{BASE_API_URL}/token",
-      headers: {
-        "Content-Type" => "application/x-www-form-urlencoded"
-      },
-      body: URI.encode_www_form(body)
-    )
+    # result = Excon.post("#{BASE_API_URL}/token",
+    #   headers: {
+    #     "Content-Type" => "application/x-www-form-urlencoded"
+    #   },
+    #   body: URI.encode_www_form(body)
+    # )
 
-    handle_token_result(result)
+    # handle_token_result(result)
+
   end
+
+  def authorizer
+    authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
+      json_key_io: StringIO.new(credentials),
+      scope: SCOPES)
+  end
+
+  def credentials
+    @credentials ||= {
+      type: "service_account",
+      private_key: SiteSetting.mentionables_google_service_account_private_key,
+      client_email: SiteSetting.mentionables_google_service_account_email,
+      auth_uri: "https://accounts.google.com/o/oauth2/auth",
+      token_uri: "https://oauth2.googleapis.com/token",
+    }.to_json
+  end
+
+  # @credentials ||= {
+  #   type: "service_account",
+  #   project_id: Rails.application.credentials.google[:project_id],
+  #   private_key_id: Rails.application.credentials.google[:private_key_id],
+  #   private_key: Rails.application.credentials.google[:private_key],
+  #   client_email: Rails.application.credentials.google[:client_email],
+  #   client_id: Rails.application.credentials.google[:client_id],
+  #   auth_uri: "https://accounts.google.com/o/oauth2/auth",
+  #   token_uri: "https://oauth2.googleapis.com/token",
+  #   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+  #   client_x509_cert_url: Rails.application.credentials.google[:client_x509_cert_url],
+  # }.to_json
 
   def self.handle_token_result(result)
     data = JSON.parse(result.body)

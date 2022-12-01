@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'google_drive'
+#require 'google_drive'
+require "google/apis/sheets_v4"
 
 class ::Mentionables::GoogleSheets < ::Mentionables::Source
   attr_reader :spreadsheet
@@ -60,6 +61,10 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
 
       spreadsheet_url = SiteSetting.mentionables_google_spreadsheet_url
       return { error_key: 'no_spreadsheet_url' } if !spreadsheet_url.present?
+
+      client = Google::Apis::SheetsV4::SheetsService.new
+
+      client.authentication = Mentionables::GoogleAuthorization.authorizer
 
       session = GoogleDrive::Session.from_access_token(access_token)
       return { error_key: 'failed_to_create_session' } if !session.present?
