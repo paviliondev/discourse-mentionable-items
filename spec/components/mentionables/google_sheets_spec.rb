@@ -8,7 +8,6 @@ describe ::Mentionables::GoogleSheets do
     WebMock.allow_net_connect!
     SiteSetting.mentionables_onebox_fallback = false
     @session = GoogleDrive::Session.from_service_account_key("#{FIXTURE_PATH}/google_sheets/service-account.json")
-    pp @session
   end
 
   after(:all) do
