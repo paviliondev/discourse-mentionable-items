@@ -28,6 +28,7 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     sheets = SiteSetting.mentionables_google_worksheet_names.split('|')
 
     items = []
+    byebug
 
     sheets.each do |sheet|
       data = spreadsheet.get_spreadsheet_values(spreadsheet_id, "#{sheet}!A1:H#{SiteSetting.mentionables_google_worksheet_max_row}").values
@@ -62,10 +63,12 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     begin
       spreadsheet_id = SiteSetting.mentionables_google_spreadsheet_id
       return { error_key: 'no_spreadsheet_id' } if spreadsheet_id.blank?
-
+byebug
       client = Google::Apis::SheetsV4::SheetsService.new
 
-      client.authorization = Mentionables::GoogleAuthorization.authorizer
+      authorizer = Mentionables::GoogleAuthorization.authorizer
+      byebug
+      client.authorization = authorizer
 
       client
     rescue => error

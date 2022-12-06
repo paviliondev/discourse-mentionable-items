@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative '../../plugin_helper'
+# require 'rspec-mocks'
 
 describe ::Mentionables::GoogleSheets do
   FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionables/spec/fixtures"
@@ -10,24 +11,55 @@ describe ::Mentionables::GoogleSheets do
     # @session = GoogleDrive::Session.from_service_account_key("#{FIXTURE_PATH}/google_sheets/service-account.json")
     # allow(Mentionables::GoogleAuthorization).to 
     # receive(:authorizer).and_return({})
+    # stub.any_instance_of(sheep = mock('sheep').responds_like_instance_of(Sheep)).authorizer {
+      # Google::Auth::ServiceAccountCredentials.new
+    # }
+    # expect(Mentionables::GoogleAuthorization).to receive(:authorizer)
+    # byebug
 
-    #Mentionables::GoogleAuthorization.stubs(:authorizer).and_return({})
-    Mentionables::GoogleAuthorization.stubs(:authorizer).returns({})
+    # auth = double("auth")
+    # auth = instance_double("Mentionables::GoogleAuthorization", :authorizer => {})
+     
+    # Mentionables::GoogleAuthorization.stubs(:blah).and_return({})
+    # Mentionables::GoogleAuthorization.expects(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
     
     # stub.any_instance_of(Mentionables::GoogleAuthorization.authorizer).
   end
   context "spreadsheet has required columns" do
     before do
     
-      stub.any_instance_of(Google::Apis::SheetsV4::SheetsService).get_spreadsheet_values {
+      # stub.any_instance_of(Google::Apis::SheetsV4::SheetsService).get_spreadsheet_values {
+      #   [["name", "url", "description", "affiliate_snippet_1"],
+      #   ["Tomato", "https://example.com/tomato", "A Tomato", "<div>Tomato</div>"],
+      #   ["Orange", "https://example.com/tomato", "An Orange", "<div>Orange</div>"],
+      #   ["Cucumber", "https://example.com/tomato", "A Cucumber", "<div>Cucumber</div>"]]
+      #   }
+    end
+
+    it "Importing a sheet with required columns works" do
+
+      SiteSetting.mentionables_google_spreadsheet_id = "3"
+      auth = mock('auth').responds_like(Mentionables::GoogleAuthorization)
+      auth.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
+
+      sheet_service = mock('sheet_service').responds_like_instance_of(Google::Apis::SheetsV4::SheetsService)
+      sheet_service.stubs(:get_spreadsheet_values).returns{
         [["name", "url", "description", "affiliate_snippet_1"],
         ["Tomato", "https://example.com/tomato", "A Tomato", "<div>Tomato</div>"],
         ["Orange", "https://example.com/tomato", "An Orange", "<div>Orange</div>"],
         ["Cucumber", "https://example.com/tomato", "A Cucumber", "<div>Cucumber</div>"]]
         }
-    end
 
-    it "Importing a sheet with required columns works" do
+      #  stub.any_instance_of(Mentionables::GoogleAuthorization).authorizer {
+      #   Google::Auth::ServiceAccountCredentials.new
+      #  }
+      # stub.any_instance_of(Google::Apis::SheetsV4::SheetsService).get_spreadsheet_values {
+      #    [["name", "url", "description", "affiliate_snippet_1"],
+      #    ["Tomato", "https://example.com/tomato", "A Tomato", "<div>Tomato</div>"],
+      #    ["Orange", "https://example.com/tomato", "An Orange", "<div>Orange</div>"],
+      #    ["Cucumber", "https://example.com/tomato", "A Cucumber", "<div>Cucumber</div>"]]
+      #    }
+      byebug
       workbook = ::Mentionables::GoogleSheets.new
       workbook.request_spreadsheet
       result = workbook.import
