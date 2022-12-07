@@ -33,7 +33,7 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
       data = spreadsheet.get_spreadsheet_values(spreadsheet_id, "#{sheet}!A1:H#{SiteSetting.mentionables_google_worksheet_max_row}").values
       valid_columns = []
       column_keys = []
-      byebug
+
       data.each_with_index do |row, index|
         if index == 0
           row.each_with_index do |value, column_index|
@@ -63,11 +63,11 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     begin
       spreadsheet_id = SiteSetting.mentionables_google_spreadsheet_id
       return { error_key: 'no_spreadsheet_id' } if spreadsheet_id.blank?
-byebug
+
       client = Google::Apis::SheetsV4::SheetsService.new
 
       authorizer = Mentionables::GoogleAuthorization.authorizer
-      byebug
+
       client.authorization = authorizer
 
       client
