@@ -28,12 +28,12 @@ class ::Mentionables::GoogleSheets < ::Mentionables::Source
     sheets = SiteSetting.mentionables_google_worksheet_names.split('|')
 
     items = []
-    byebug
 
     sheets.each do |sheet|
       data = spreadsheet.get_spreadsheet_values(spreadsheet_id, "#{sheet}!A1:H#{SiteSetting.mentionables_google_worksheet_max_row}").values
       valid_columns = []
       column_keys = []
+      byebug
       data.each_with_index do |row, index|
         if index == 0
           row.each_with_index do |value, column_index|

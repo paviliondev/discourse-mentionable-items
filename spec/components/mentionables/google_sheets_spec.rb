@@ -39,16 +39,17 @@ describe ::Mentionables::GoogleSheets do
     it "Importing a sheet with required columns works" do
 
       SiteSetting.mentionables_google_spreadsheet_id = "3"
-      auth = mock('auth').responds_like(Mentionables::GoogleAuthorization)
-      auth.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
-
-      sheet_service = mock('sheet_service').responds_like_instance_of(Google::Apis::SheetsV4::SheetsService)
-      sheet_service.stubs(:get_spreadsheet_values).returns{
+      Mentionables::GoogleAuthorization.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
+      # auth = mock('auth').responds_like(Mentionables::GoogleAuthorization)
+      # auth.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
+      # sheet_service = mock('sheet_service').responds_like_instance_of(Google::Apis::SheetsV4::SheetsService)
+      # sheet_service.stubs(:get_spreadsheet_values).returns{
+      Google::Apis::SheetsV4::SheetsService.any_instance.stubs(:get_spreadsheet_values).returns({:values =>
         [["name", "url", "description", "affiliate_snippet_1"],
         ["Tomato", "https://example.com/tomato", "A Tomato", "<div>Tomato</div>"],
         ["Orange", "https://example.com/tomato", "An Orange", "<div>Orange</div>"],
         ["Cucumber", "https://example.com/tomato", "A Cucumber", "<div>Cucumber</div>"]]
-        }
+    })
 
       #  stub.any_instance_of(Mentionables::GoogleAuthorization).authorizer {
       #   Google::Auth::ServiceAccountCredentials.new
