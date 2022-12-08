@@ -6,19 +6,19 @@ function replaceSpan($elem, item_data) {
   );
 }
 
-export function linkSeenMentionableItems($elem, siteSettings) {
-  const $mentionableitems = $elem.find("span.mentionable-item");
-  if ($mentionableitems.length === 0) {
+export function linkSeenMentionableItems(elem, siteSettings) {
+  const mentionableItems = elem.querySelector("span.mentionable-item");
+  if (!mentionableItems || !mentionableItems.length === 0) {
     return [];
   }
 
   const items = [
-    ...$mentionableitems.map((_, mentionableitem) =>
+    ...mentionableItems.map((_, mentionableitem) =>
       mentionableitem.innerText.substr(1)
     ),
   ];
 
-  $mentionableitems.each((index, mentionableitem) => {
+  mentionableItems.each((index, mentionableitem) => {
     let item = items[index];
     let item_data = searchMentionableItem(item, siteSettings)[0];
 

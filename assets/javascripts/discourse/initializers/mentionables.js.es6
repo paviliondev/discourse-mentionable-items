@@ -32,6 +32,8 @@ export default {
 
     withPluginApi("0.8.13", (api) => {
       api.modifyClass("component:d-editor", {
+        pluginId: "discourse-mentionables",
+
         didInsertElement() {
           this._super(...arguments);
           const $editorInput = $(this.element.querySelector(".d-editor-input"));
@@ -60,11 +62,11 @@ export default {
           this._super(...arguments);
 
           schedule("afterRender", () => {
-            const $preview = $(this.element.querySelector(".d-editor-preview"));
-            if (this._state !== "inDOM" || $preview.length === 0) {
+            const preview = this.element.querySelector(".d-editor-preview");
+            if (this._state !== "inDOM" || preview.length === 0) {
               return;
             }
-            linkSeenMentionableItems($preview, siteSettings);
+            linkSeenMentionableItems(preview, siteSettings);
           });
         },
       });
