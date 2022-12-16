@@ -1,52 +1,72 @@
 # frozen_string_literal: true
 require_relative '../../plugin_helper'
+# require 'rspec-mocks'
 
 describe ::Mentionables::GoogleSheets do
   FIXTURE_PATH = "#{Rails.root}/plugins/discourse-mentionables/spec/fixtures"
 
-  before(:all) do
-    WebMock.allow_net_connect!
-    SiteSetting.mentionables_onebox_fallback = false
-    @session = GoogleDrive::Session.from_service_account_key("#{FIXTURE_PATH}/google_sheets/service-account.json")
-  end
+  context "spreadsheet has required columns" do
+    it "Importing a sheet with required columns works" do
+      SiteSetting.mentionables_google_spreadsheet_id = "invented"
+      SiteSetting.mentionables_onebox_fallback = true
+      Mentionables::GoogleAuthorization.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
+      Oneboxer.stubs(:preview).returns("<aside class=\"onebox allowlistedgeneric\" data-onebox-src=\"https://example.com/comm-link/transmission/Roadmap-Roundup\">\n  <header class=\"source\">\n\n      <a href=\"https://example.com/comm-link/transmission/Roadmap-Roundup\" target=\"_blank\" rel=\"nofollow ugc noopener\">Roadmap Roundup</a>\n  </header>\n\n  <article class=\"onebox-body\">\n    <img src=\"https://example.com/media/qoxio5lo5vxv3r/channel_item_full/ROADMAPBANNER.jpg\" class=\"thumbnail\">\n\n<h3><a href=\"https://example.com/comm-link/transmission/Roadmap-Roundup\" target=\"_blank\" rel=\"nofollow ugc noopener\">Roadmap Roundup</a></h3>\n\n  <p>Example is the official go-to website for all news  about roadmap stuff.</p>\n\n\n  </article>\n\n  <div class=\"onebox-metadata\">\n    \n    \n  </div>\n\n  <div style=\"clear: both\"></div>\n</aside>\n")
+      Google::Apis::SheetsV4::SheetsService.any_instance.stubs(:get_spreadsheet_values).returns(stub('values',
+        values: [["url"],
+        ["https://example.com/tomato"]]
+      ))
 
-  after(:all) do
-    @session.spreadsheets.each do |sheet|
-      sheet.delete(true)
+      workbook = ::Mentionables::GoogleSheets.new
+      workbook.request_spreadsheet
+      result = workbook.import
+
+      expect(result.success).to eq(1)
+      expect(result.error).to eq(0)
+      expect(result.duplicate).to eq(0)
+      expect(MentionableItem.all.size).to eq(1)
     end
   end
 
-  def create_spreadsheet(filename)
-    @session.upload_from_file("#{FIXTURE_PATH}/#{filename}.csv", "Test: #{filename}")
+  context "spreadsheet has optional columns" do
+    it "Importing a sheet with optional columns works" do
+      SiteSetting.mentionables_google_spreadsheet_id = "invented"
+      SiteSetting.mentionables_onebox_fallback = false
+      Mentionables::GoogleAuthorization.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
+      Google::Apis::SheetsV4::SheetsService.any_instance.stubs(:get_spreadsheet_values).returns(stub('values',
+        values: [["name", "url", "description", "affiliate_snippet_1"],
+        ["Tomato", "https://example.com/tomato", "A Tomato", "<div>Tomato</div>"],
+        ["Orange", "https://example.com/tomato", "An Orange", "<div>Orange</div>"],
+        ["Cucumber", "https://example.com/tomato", "A Cucumber", "<div>Cucumber</div>"]]
+      ))
+
+      workbook = ::Mentionables::GoogleSheets.new
+      workbook.request_spreadsheet
+      result = workbook.import
+
+      expect(result.success).to eq(3)
+      expect(result.error).to eq(0)
+      expect(result.duplicate).to eq(0)
+      expect(MentionableItem.all.size).to eq(3)
+    end
   end
 
-  it "Importing an empty sheet does nothing" do
-    spreadsheet = create_spreadsheet("empty")
-    result = described_class.new(spreadsheet).import
+  context "Importing an empty sheet does nothing" do
+    it "Importing a sheet with no columns does nothing" do
+      SiteSetting.mentionables_google_spreadsheet_id = "invented"
+      SiteSetting.mentionables_onebox_fallback = false
+      Mentionables::GoogleAuthorization.stubs(:authorizer).returns(Google::Auth::ServiceAccountCredentials.new)
+      Google::Apis::SheetsV4::SheetsService.any_instance.stubs(:get_spreadsheet_values).returns(stub('values',
+        values: []
+      ))
 
-    expect(result.success).to eq(0)
-    expect(result.error).to eq(0)
-    expect(result.duplicate).to eq(0)
-    expect(MentionableItem.all.size).to eq(0)
-  end
+      workbook = ::Mentionables::GoogleSheets.new
+      workbook.request_spreadsheet
+      result = workbook.import
 
-  it "Importing a sheet with required columns works" do
-    spreadsheet = create_spreadsheet("required_only")
-    result = described_class.new(spreadsheet).import
-
-    expect(result.success).to eq(1)
-    expect(result.error).to eq(0)
-    expect(result.duplicate).to eq(0)
-    expect(MentionableItem.all.size).to eq(1)
-  end
-
-  it "Importing a sheet with optional columns works" do
-    spreadsheet = create_spreadsheet("required_and_optional")
-    result = described_class.new(spreadsheet).import
-
-    expect(result.success).to eq(1)
-    expect(result.error).to eq(0)
-    expect(result.duplicate).to eq(0)
-    expect(MentionableItem.all.size).to eq(1)
+      expect(result.success).to eq(0)
+      expect(result.error).to eq(0)
+      expect(result.duplicate).to eq(0)
+      expect(MentionableItem.all.size).to eq(0)
+    end
   end
 end
