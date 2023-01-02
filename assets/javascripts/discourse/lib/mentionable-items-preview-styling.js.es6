@@ -14,7 +14,8 @@ export function linkSeenMentionableItems(elem, siteSettings) {
   }
 
   const items = [...mentionableItems].map((mentionableitem) => {
-    return mentionableitem.innerText.substr(1)});
+    return mentionableitem.innerText.substr(1)
+  });
 
   mentionableItems.forEach((_, index, mentionableitem) => {
     let item = items[index];
