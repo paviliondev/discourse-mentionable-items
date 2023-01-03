@@ -12,14 +12,12 @@ export function linkSeenMentionableItems(elem, siteSettings) {
   if (!mentionableItems || !mentionableItems.length === 0) {
     return [];
   }
-  debugger;
+
   const items = [...mentionableItems].map((mentionableitem) => {
     return mentionableitem.innerText.substr(1);
   });
-  debugger;
 
-  mentionableItems.forEach((mentionableitem, index, _) => {
-    debugger;
+  mentionableItems.forEach((mentionableitem, index) => {
     let item = items[index];
     let item_data = searchMentionableItem(item, siteSettings)[0];
 
