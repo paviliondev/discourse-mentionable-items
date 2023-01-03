@@ -12,7 +12,7 @@ export default {
         name: "The Stuff of Dreams",
         slug: "the-stuff-of-dreams",
         updated_at: "2021-11-03T17:35:14.474Z",
-        url: "https://amazing.com/stuff-of-dreams-book"
+        url: "https://amazing.com/stuff-of-dreams-book",
       },
     ],
   },

@@ -1,8 +1,4 @@
-import {
-  click,
-  fillIn,
-  visit,
-} from "@ember/test-helpers";
+import { click, fillIn, visit } from "@ember/test-helpers";
 import { toggleCheckDraftPopup } from "discourse/controllers/composer";
 import { cloneJSON } from "discourse-common/lib/object";
 import {
@@ -42,20 +38,20 @@ acceptance("Composer", function (needs) {
     assert.ok(exists("#create-topic"), "the create button is visible");
     await click("#create-topic");
     assert.ok(exists(".d-editor-input"), "the composer input is visible");
-    assert.ok(
-      exists(".d-editor-preview:visible"),
-      "shows the preview"
-    );
+    assert.ok(exists(".d-editor-preview:visible"), "shows the preview");
     await fillIn("#reply-title", "this is my new topic title");
     assert.ok(
       exists(".title-input .popup-tip.good.hide"),
       "the title is now good"
     );
-    await fillIn(".d-editor-input", "this is the *content* of a post with a mentionable item +the-stuff-of-dreams");
+    await fillIn(
+      ".d-editor-input",
+      "this is the *content* of a post with a mentionable item +the-stuff-of-dreams"
+    );
     assert.strictEqual(
       query(".d-editor-preview").innerHTML.trim(),
-      "<p>this is the <em>content</em> of a post with a mentionable item <a href=\"https://amazing.com/stuff-of-dreams-book\" class=\"mentionable-item\" target=\"_blank\" tabindex=\"-1\"><span>The Stuff of Dreams</span></a></p>",
+      '<p>this is the <em>content</em> of a post with a mentionable item <a href="https://amazing.com/stuff-of-dreams-book" class="mentionable-item" target="_blank" tabindex="-1"><span>The Stuff of Dreams</span></a></p>',
       "it previews content"
     );
-  })
-})
+  });
+});
