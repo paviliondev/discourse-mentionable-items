@@ -7,18 +7,17 @@ function replaceSpan($elem, item_data) {
 }
 
 export function linkSeenMentionableItems(elem, siteSettings) {
-  const mentionableItems = elem.querySelector("span.mentionable-item");
+  const mentionableItems = elem.querySelectorAll("span.mentionable-item");
+
   if (!mentionableItems || !mentionableItems.length === 0) {
     return [];
   }
 
-  const items = [
-    ...mentionableItems.map((_, mentionableitem) =>
-      mentionableitem.innerText.substr(1)
-    ),
-  ];
+  const items = [...mentionableItems].map((mentionableitem) => {
+    return mentionableitem.innerText.substr(1);
+  });
 
-  mentionableItems.each((index, mentionableitem) => {
+  mentionableItems.forEach((mentionableitem, index) => {
     let item = items[index];
     let item_data = searchMentionableItem(item, siteSettings)[0];
 
