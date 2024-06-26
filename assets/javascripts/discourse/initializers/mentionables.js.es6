@@ -46,7 +46,7 @@ export default {
             key: SEPARATOR,
             afterComplete: (value) => {
               this.set("value", value);
-              return this._focusTextArea();
+              return this.focusTextArea();
             },
             transformComplete: (item) => item.model.slug,
             dataSource: (term) =>
