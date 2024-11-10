@@ -2,12 +2,12 @@
 # name: discourse-mentionables
 # about: Allows users to +mention custom data in posts
 # email contacts: robert@pavilion.tech
-# version: 0.5.2
+# version: 0.5.3
 # authors: Robert Barrow, Angus McLeod
 # contact_emails: development@pavilion.tech
 # url: https://github.com/paviliondev/discourse-mentionables
 
-gem 'webrick', '1.8.2', require: false
+gem 'webrick', '1.9.0', require: false
 gem 'httpclient', '2.8.3', require: false
 gem 'retriable', '3.1.2', require: false
 gem 'signet', '0.17.0', require: false
